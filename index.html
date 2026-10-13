@@ -1004,6 +1004,51 @@ supabase
 
             showToast('Nexus Command Center loaded successfully.');
         };
+        // ==========================================
+// SUPABASE CLIENT INITIALIZATION
+// ==========================================
+const SUPABASE_URL = 'https://ljzfsqnyxsaigsjpnxuu.supabase.co'; // Replace with your URL
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqemZzcW55eHNhaWdzanBueHV1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE4NTI4NTMsImV4cCI6MjEwNzQyODg1M30.yGQB3h_axyIQTmix09njxVNklUOhO1qShO0NGYu6RTs'; // Replace with your Anon Key
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// Function to fetch live ventures from Postgres on startup
+async function fetchSupabaseVentures() {
+    try {
+        const { data, error } = await supabaseClient.from('ventures').select('*');
+        if (error) throw error;
+        if (data && data.length > 0) {
+            // Map Supabase venture rows to your dashboard state format
+            appState.ventures = data.map(v => ({
+                id: v.slug,
+                name: v.name,
+                desc: v.description,
+                status: v.is_active ? 'Active' : 'Paused',
+                users: v.active_users,
+                mrrPerUser: 300, // Default baseline or fetch from db
+                tokenCost: v.token_burn_rate || 5000,
+                color: 'cyan'
+            }));
+            updateKPIs();
+            renderVenturesGrid();
+            initTokenChart();
+        }
+    } catch (err) {
+        console.warn('Using local fallback state (Supabase offline or unconfigured):', err.message);
+    }
+}
+
+// Function to sync HITL approvals back to Supabase
+async function syncHitlToSupabase(id, decision) {
+    try {
+        const { error } = await supabaseClient
+            .from('hitl_queue')
+            .update({ status: decision, reviewed_at: new Date() })
+            .eq('id', id);
+        if (error) throw error;
+    } catch (err) {
+        console.error('Failed to sync HITL update to Supabase:', err.message);
+    }
+}
     </script>
 </body>
 </html>

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nexus Holdings - Executive Command Center</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -32,63 +31,44 @@
             }
         }
     </script>
-    <!-- Chart.js CDN -->
+    <!-- Chart.js & Lucide Icons -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Lucide Icons CDN -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        /* Custom scrollbars and sleek UI adjustments */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0f172a;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #1e293b;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #334155;
-        }
-        .glow-cyan {
-            box-shadow: 0 0 15px rgba(34, 211, 238, 0.15);
-        }
-        .glow-emerald {
-            box-shadow: 0 0 15px rgba(52, 211, 153, 0.15);
-        }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
+        .glow-cyan { box-shadow: 0 0 20px rgba(34, 211, 238, 0.12); }
+        .glow-emerald { box-shadow: 0 0 20px rgba(52, 211, 153, 0.12); }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col selection:bg-cyan-500 selection:text-slate-950">
 
-    <!-- EXECUTIVE HEADER -->
-    <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-40 backdrop-blur-md bg-opacity-90">
+    <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-40 backdrop-blur-md bg-opacity-95">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <!-- Brand & Status -->
-            <div class="flex items-center space-x-4">
+            <div class="flex items-center space-x-3 sm:space-x-4">
                 <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-cyan-500 to-emerald-500 flex items-center justify-center text-slate-950 font-extrabold text-xl shadow-lg shadow-cyan-500/20">
                     N
                 </div>
                 <div>
                     <div class="flex items-center space-x-2">
-                        <h1 class="font-bold text-lg text-white tracking-wide">NEXUS HOLDINGS</h1>
-                        <span class="text-xs px-2 py-0.5 rounded-full bg-cyan-900/50 text-cyan-400 border border-cyan-700/50">Holding Co.</span>
+                        <h1 class="font-bold text-sm sm:text-lg text-white tracking-wide">NEXUS HOLDINGS</h1>
+                        <span class="text-[10px] sm:text-xs px-2 py-0.5 rounded-full bg-cyan-900/50 text-cyan-400 border border-cyan-700/50">Command v2.4</span>
                     </div>
-                    <div class="flex items-center space-x-2 text-xs text-slate-400">
+                    <div class="flex items-center space-x-2 text-[11px] text-slate-400">
                         <span class="relative flex h-2 w-2">
                             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                             <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                         </span>
-                        <span id="liveStatusText" class="text-emerald-400 font-medium">All 5 Child Ventures Operational</span>
+                        <span id="liveStatusText" class="text-emerald-400 font-medium">System Synchronized & Autonomous</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Currency & Global Controls -->
-            <div class="flex items-center space-x-3 sm:space-x-4">
-                <!-- Currency Selector -->
-                <div class="flex items-center space-x-2 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700">
+            <!-- Global Actions & Currency -->
+            <div class="flex items-center space-x-2 sm:space-x-3">
+                <div class="hidden md:flex items-center space-x-1 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700">
                     <i data-lucide="coins" class="w-4 h-4 text-cyan-400"></i>
                     <select id="currencySelect" onchange="updateCurrencyDisplay()" class="bg-transparent text-xs font-semibold text-white focus:outline-none cursor-pointer">
                         <option value="LSL" selected class="bg-slate-900">LSL (Lesotho Loti)</option>
@@ -97,104 +77,93 @@
                     </select>
                 </div>
 
-                <!-- Action Buttons -->
                 <button onclick="openSalaryModal()" class="flex items-center space-x-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs px-3 py-2 rounded-lg font-medium text-slate-200 transition-all">
                     <i data-lucide="calculator" class="w-4 h-4 text-cyan-400"></i>
-                    <span class="hidden sm:inline">Executive Salaries</span>
+                    <span class="hidden sm:inline">Salary & Dividends</span>
                 </button>
 
-                <button onclick="triggerGrowthAgentScan()" class="flex items-center space-x-1.5 bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-lg shadow-md transition-all">
-                    <i data-lucide="zap" class="w-4 h-4"></i>
-                    <span>Run GrowthAgent</span>
+                <button onclick="exportStateJson()" title="Export State JSON" class="p-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 rounded-lg transition">
+                    <i data-lucide="download" class="w-4 h-4"></i>
+                </button>
+
+                <button onclick="resetDashboardState()" title="Reset to Defaults" class="p-2 bg-slate-800 hover:bg-rose-900/50 border border-slate-700 hover:border-rose-700 text-slate-300 hover:text-rose-300 rounded-lg transition">
+                    <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- MAIN CONTAINER -->
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
-        <!-- 1. FINANCIAL KPI METRICS GRID -->
+        <!-- KPI Metrics Grid -->
         <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            <!-- Combined Revenue -->
-            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 glow-cyan hover:border-slate-700 transition">
+            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 glow-cyan">
                 <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
-                    <span>Combined Revenue</span>
+                    <span>Combined MRR</span>
                     <i data-lucide="trending-up" class="w-4 h-4 text-emerald-400"></i>
                 </div>
-                <div id="kpiCombinedRevenue" class="text-lg sm:text-xl font-bold text-white">LSL 1,693,800</div>
-                <div class="text-[10px] text-emerald-400 font-medium mt-1 flex items-center">
-                    <span>+24.5% MoM</span>
-                    <span class="text-slate-500 ml-1">(Year 1 Est)</span>
-                </div>
+                <div id="kpiCombinedMRR" class="text-base sm:text-xl font-bold text-white">LSL 141,150</div>
+                <div class="text-[10px] text-emerald-400 font-medium mt-1">Live Portfolio Run-Rate</div>
             </div>
 
-            <!-- Net Profit Margin -->
-            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 hover:border-slate-700 transition">
+            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
                 <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
                     <span>Net EBITDA Margin</span>
                     <i data-lucide="pie-chart" class="w-4 h-4 text-cyan-400"></i>
                 </div>
-                <div id="kpiNetMargin" class="text-lg sm:text-xl font-bold text-emerald-400">72.8%</div>
+                <div id="kpiNetMargin" class="text-base sm:text-xl font-bold text-emerald-400">72.8%</div>
                 <div class="text-[10px] text-slate-400 mt-1">High automation efficiency</div>
             </div>
 
-            <!-- Token Burn Cost -->
-            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 hover:border-slate-700 transition">
+            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
                 <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
                     <span>API Token Burn</span>
                     <i data-lucide="cpu" class="w-4 h-4 text-amber-400"></i>
                 </div>
-                <div id="kpiTokenBurn" class="text-lg sm:text-xl font-bold text-amber-300">LSL 38,250</div>
-                <div class="text-[10px] text-slate-400 mt-1">Monthly Run-Rate</div>
+                <div id="kpiTokenBurn" class="text-base sm:text-xl font-bold text-amber-300">LSL 38,250</div>
+                <div class="text-[10px] text-slate-400 mt-1">Monthly LLM Compute</div>
             </div>
 
-            <!-- Portfolio Active Subs -->
-            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 hover:border-slate-700 transition">
+            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
                 <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
                     <span>Active Users</span>
                     <i data-lucide="users" class="w-4 h-4 text-cyan-400"></i>
                 </div>
-                <div id="kpiActiveUsers" class="text-lg sm:text-xl font-bold text-white">295</div>
-                <div class="text-[10px] text-emerald-400 font-medium mt-1"> Across 5 ventures</div>
+                <div id="kpiActiveUsers" class="text-base sm:text-xl font-bold text-white">295</div>
+                <div class="text-[10px] text-emerald-400 font-medium mt-1">Across 5 ventures</div>
             </div>
 
-            <!-- Central Treasury Reserve -->
-            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 glow-emerald hover:border-slate-700 transition">
+            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 glow-emerald">
                 <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
-                    <span>Treasury Reserve (20%)</span>
+                    <span>Treasury Reserve</span>
                     <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
                 </div>
-                <div id="kpiTreasury" class="text-lg sm:text-xl font-bold text-cyan-300">LSL 113,916</div>
-                <div class="text-[10px] text-slate-400 mt-1">Nexus Holding Fund</div>
+                <div id="kpiTreasury" class="text-base sm:text-xl font-bold text-cyan-300">LSL 113,916</div>
+                <div class="text-[10px] text-slate-400 mt-1">20% Holding Buffer</div>
             </div>
 
-            <!-- RSL Tax Reserve -->
-            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 hover:border-slate-700 transition">
+            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
                 <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
-                    <span>RSL Tax Provision (25%)</span>
+                    <span>RSL Tax Provision</span>
                     <i data-lucide="landmark" class="w-4 h-4 text-rose-400"></i>
                 </div>
-                <div id="kpiTaxReserve" class="text-lg sm:text-xl font-bold text-rose-300">LSL 185,220</div>
+                <div id="kpiTaxReserve" class="text-base sm:text-xl font-bold text-rose-300">LSL 185,220</div>
                 <div class="text-[10px] text-slate-400 mt-1">Lesotho Tax Compliance</div>
             </div>
         </section>
 
-        <!-- 2. CHARTS SECTION (2 COLUMNS) -->
         <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- 5-Year Cash Flow Projection Chart (2 cols) -->
-            <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+            <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-800 gap-2">
                     <div>
                         <h2 class="font-bold text-white text-base flex items-center space-x-2">
                             <i data-lucide="bar-chart-3" class="w-5 h-5 text-cyan-400"></i>
-                            <span>5-Year Holding Company Financial Trajectory</span>
+                            <span>5-Year Holding Company Trajectory</span>
                         </h2>
-                        <p class="text-xs text-slate-400">Combined performance for GrantFlow, ClimateGuard, ContractShield, SkillBoost & OptiStock</p>
+                        <p class="text-xs text-slate-400">Dynamic forecast for GrantFlow, ClimateGuard, ContractShield, SkillBoost & OptiStock</p>
                     </div>
-                    <!-- Chart Controls -->
                     <div class="flex items-center space-x-2">
-                        <select id="scenarioSelect" onchange="updateChartsScenario()" class="bg-slate-800 text-xs text-slate-200 border border-slate-700 rounded-lg px-2.5 py-1.5 focus:outline-none">
+                        <select id="scenarioSelect" onchange="updateChartsScenario()" class="bg-slate-800 text-xs text-slate-200 border border-slate-700 rounded-lg px-2.5 py-1.5 focus:outline-none cursor-pointer">
                             <option value="expected">Scenario: Average / Expected</option>
                             <option value="best">Scenario: Best-Case (Exponential)</option>
                             <option value="worst">Scenario: Conservative / Worst</option>
@@ -202,72 +171,81 @@
                     </div>
                 </div>
 
-                <div class="pt-4 h-72 sm:h-80 w-full relative">
+                <div class="pt-4 h-72 sm:h-80 w-full relative flex-1">
                     <canvas id="financialChart"></canvas>
                 </div>
             </div>
 
-            <!-- API Token Spend Allocation Chart (1 col) -->
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col">
                 <div class="pb-4 border-b border-slate-800">
                     <h2 class="font-bold text-white text-base flex items-center space-x-2">
                         <i data-lucide="pie-chart" class="w-5 h-5 text-emerald-400"></i>
-                        <span>API Compute Allocation</span>
+                        <span>Token Burn Distribution</span>
                     </h2>
-                    <p class="text-xs text-slate-400">Token burn distributed across child ventures</p>
+                    <p class="text-xs text-slate-400">Compute expenditure per venture</p>
                 </div>
 
-                <div class="flex-1 flex items-center justify-center p-2 relative h-64 sm:h-auto">
+                <div class="flex-1 flex items-center justify-center p-2 relative h-56 sm:h-auto">
                     <canvas id="tokenAllocationChart"></canvas>
                 </div>
 
-                <div class="grid grid-cols-2 gap-2 text-[11px] pt-3 border-t border-slate-800/80 text-slate-400">
-                    <div class="flex items-center space-x-1.5">
-                        <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
-                        <span>ContractShield (30%)</span>
-                    </div>
-                    <div class="flex items-center space-x-1.5">
-                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
-                        <span>GrantFlow (25%)</span>
-                    </div>
-                    <div class="flex items-center space-x-1.5">
-                        <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
-                        <span>SkillBoost (20%)</span>
-                    </div>
-                    <div class="flex items-center space-x-1.5">
-                        <span class="w-2.5 h-2.5 rounded-full bg-purple-400"></span>
-                        <span>OptiStock (15%)</span>
-                    </div>
-                    <div class="flex items-center space-x-1.5 col-span-2">
-                        <span class="w-2.5 h-2.5 rounded-full bg-rose-400"></span>
-                        <span>ClimateGuard (10%)</span>
-                    </div>
+                <div id="tokenLegend" class="grid grid-cols-2 gap-2 text-[11px] pt-3 border-t border-slate-800 text-slate-400">
+                    <!-- Dynamic legend items -->
                 </div>
             </div>
         </section>
 
-        <!-- 3. VENTURE HEALTH STATUS GRID -->
         <section class="space-y-3">
             <div class="flex items-center justify-between">
                 <div>
                     <h2 class="text-lg font-bold text-white flex items-center space-x-2">
                         <i data-lucide="layout-grid" class="w-5 h-5 text-cyan-400"></i>
-                        <span>Portfolio Child Ventures</span>
+                        <span>Portfolio Child Ventures & Live Sliders</span>
                     </h2>
-                    <p class="text-xs text-slate-400">Real-time status, monthly revenue, active users, and agent approval status</p>
+                    <p class="text-xs text-slate-400">Adjust active user counts, token burn rates, and operational modes instantly</p>
                 </div>
-                <span class="text-xs text-slate-400 font-mono">5/5 Autonomous</span>
+                <span class="text-xs text-cyan-400 font-mono bg-cyan-950/50 px-2.5 py-1 rounded-lg border border-cyan-800/60">Persistent State Saved</span>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4" id="venturesGrid">
-                <!-- Venture Cards generated dynamically by JavaScript -->
+                <!-- Populated dynamically via JS -->
             </div>
         </section>
 
-        <!-- 4. BOTTOM DUAL SECTION: HITL QUEUE & GROWTHAGENT FEED -->
         <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            
-            <!-- HUMAN-IN-THE-LOOP (HITL) APPROVAL QUEUE -->
+            <!-- Live Activity Log -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col">
+                <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+                    <div class="flex items-center space-x-2">
+                        <div class="p-2 bg-cyan-500/10 border border-cyan-500/20 rounded-lg">
+                            <i data-lucide="bot" class="w-5 h-5 text-cyan-400"></i>
+                        </div>
+                        <div>
+                            <h2 class="font-bold text-white text-base">GrowthAgent CMO Automation Feed</h2>
+                            <p class="text-xs text-slate-400">Programmatic SEO, email sequence & outbound signals</p>
+                        </div>
+                    </div>
+                    <button onclick="triggerGrowthAgentScan()" class="flex items-center space-x-1.5 bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-slate-950 font-bold text-xs px-3 py-1.5 rounded-lg shadow transition">
+                        <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+                        <span>Trigger Campaign</span>
+                    </button>
+                </div>
+
+                <div id="growthLog" class="my-3 flex-1 overflow-y-auto max-h-64 pr-1 space-y-2.5 font-mono text-xs">
+                    <!-- Log entries -->
+                </div>
+
+                <!-- Interactive Command Terminal Input -->
+                <div class="pt-3 border-t border-slate-800 flex items-center space-x-2">
+                    <div class="text-cyan-400 font-mono text-xs shrink-0">&gt;</div>
+                    <input type="text" id="terminalInput" onkeydown="handleTerminalKey(event)" placeholder="Type command (e.g. 'status', 'audit contracts', 'reallocate', 'help')..." class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs font-mono text-slate-200 focus:outline-none focus:border-cyan-500 transition">
+                    <button onclick="executeTerminalCommand()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-cyan-400 text-xs font-mono rounded-lg border border-slate-700 transition shrink-0">
+                        Run
+                    </button>
+                </div>
+            </div>
+
+            <!-- Human-In-The-Loop Approval Queue -->
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col">
                 <div class="flex items-center justify-between pb-4 border-b border-slate-800">
                     <div class="flex items-center space-x-2">
@@ -276,114 +254,61 @@
                         </div>
                         <div>
                             <h2 class="font-bold text-white text-base">Human-In-The-Loop Approval Queue</h2>
-                            <p class="text-xs text-slate-400">Requires Executive verification (You or Operations Lead)</p>
+                            <p class="text-xs text-slate-400">Actionable items requiring executive verification</p>
                         </div>
                     </div>
                     <span id="hitlBadge" class="bg-amber-500/20 text-amber-300 text-xs px-2.5 py-1 rounded-full border border-amber-500/30 font-semibold">
-                        2 Pending
+                        0 Pending
                     </span>
                 </div>
 
-                <!-- Approval Items Container -->
-                <div id="hitlList" class="divide-y divide-slate-800/80 my-3 flex-1 overflow-y-auto max-h-80 pr-1 space-y-3 pt-2">
-                    <!-- Item 1 -->
-                    <div id="hitl-item-1" class="pt-2">
-                        <div class="flex items-start justify-between">
-                            <div>
-                                <span class="inline-block px-2 py-0.5 text-[10px] bg-cyan-900/50 text-cyan-300 border border-cyan-700/50 rounded mb-1">ContractShield</span>
-                                <h4 class="text-sm font-semibold text-slate-200">High-Risk Redline Review: Enterprise NDA</h4>
-                                <p class="text-xs text-slate-400 mt-0.5">Indemnity capped at LSL 5,000,000. Verification required before releasing client audit report.</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-end space-x-2 mt-3">
-                            <button onclick="rejectHitl(1)" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium rounded-lg border border-slate-700 transition">
-                                Reject / Revision
-                            </button>
-                            <button onclick="approveHitl(1)" class="px-3 py-1.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs rounded-lg transition flex items-center space-x-1">
-                                <i data-lucide="check" class="w-3.5 h-3.5"></i>
-                                <span>Approve & Release</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Item 2 -->
-                    <div id="hitl-item-2" class="pt-3">
-                        <div class="flex items-start justify-between">
-                            <div>
-                                <span class="inline-block px-2 py-0.5 text-[10px] bg-emerald-900/50 text-emerald-300 border border-emerald-700/50 rounded mb-1">GrantFlow</span>
-                                <h4 class="text-sm font-semibold text-slate-200">Grant Submission Authorization</h4>
-                                <p class="text-xs text-slate-400 mt-0.5">UN Climate Resilience Grant ($45,000 value). Multi-agent proposal generated and score verified at 96% compliance.</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-end space-x-2 mt-3">
-                            <button onclick="rejectHitl(2)" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium rounded-lg border border-slate-700 transition">
-                                Reject
-                            </button>
-                            <button onclick="approveHitl(2)" class="px-3 py-1.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs rounded-lg transition flex items-center space-x-1">
-                                <i data-lucide="check" class="w-3.5 h-3.5"></i>
-                                <span>Approve Submission</span>
-                            </button>
-                        </div>
-                    </div>
+                <div id="hitlList" class="my-3 flex-1 overflow-y-auto max-h-72 pr-1 space-y-3">
+                    <!-- Populated dynamically -->
                 </div>
 
                 <div class="text-[11px] text-slate-500 pt-3 border-t border-slate-800 flex justify-between items-center">
-                    <span>Safety Protocol: Enabled</span>
-                    <span>1-Click Verification Active</span>
+                    <span>Multi-Agent Guardrails: Active</span>
+                    <button onclick="resetHitlQueue()" class="text-cyan-400 hover:underline">Restore Queue Items</button>
                 </div>
             </div>
-
-            <!-- GROWTHAGENT CMO LIVE FEED -->
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col">
-                <div class="flex items-center justify-between pb-4 border-b border-slate-800">
-                    <div class="flex items-center space-x-2">
-                        <div class="p-2 bg-cyan-500/10 border border-cyan-500/20 rounded-lg">
-                            <i data-lucide="bot" class="w-5 h-5 text-cyan-400"></i>
-                        </div>
-                        <div>
-                            <h2 class="font-bold text-white text-base">GrowthAgent Marketing Engine Log</h2>
-                            <p class="text-xs text-slate-400">Autonomous CMO executing acquisition playbooks</p>
-                        </div>
-                    </div>
-                    <span class="flex items-center space-x-1 bg-cyan-900/40 text-cyan-400 text-[11px] px-2.5 py-1 rounded-full border border-cyan-700/50">
-                        <i data-lucide="activity" class="w-3 h-3 animate-spin"></i>
-                        <span>Active Strategy</span>
-                    </span>
-                </div>
-
-                <!-- Feed Container -->
-                <div id="growthLog" class="my-3 flex-1 overflow-y-auto max-h-80 pr-1 space-y-2.5 font-mono text-xs">
-                    <!-- Logs inserted dynamically -->
-                </div>
-
-                <div class="text-[11px] text-slate-500 pt-3 border-t border-slate-800 flex justify-between items-center">
-                    <span>Programmatic SEO & Signal Outbound</span>
-                    <button onclick="addLogEntry()" class="text-cyan-400 hover:underline">Simulate Event</button>
-                </div>
-            </div>
-
         </section>
     </main>
 
-    <!-- EXECUTIVE SALARY CALCULATOR MODAL -->
-    <div id="salaryModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full p-6 shadow-2xl space-y-5">
+    <div id="salaryModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-3xl w-full p-6 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto">
             <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div class="flex items-center space-x-3">
                     <div class="p-2.5 bg-emerald-500/10 border border-emerald-500/20 rounded-xl">
                         <i data-lucide="calculator" class="w-6 h-6 text-emerald-400"></i>
                     </div>
                     <div>
-                        <h3 class="font-bold text-lg text-white">5-Year Executive Salary & Compensation Model</h3>
-                        <p class="text-xs text-slate-400">Managing Director (You) & Operations Lead (Co-Founder)</p>
+                        <h3 class="font-bold text-lg text-white">Executive Salary & Dividend Planner (LSL)</h3>
+                        <p class="text-xs text-slate-400">Customize 2-founder base salaries and profit distribution splits</p>
                     </div>
                 </div>
-                <button onclick="closeSalaryModal()" class="text-slate-400 hover:text-white p-1 rounded-lg bg-slate-800">
+                <button onclick="closeSalaryModal()" class="text-slate-400 hover:text-white p-1.5 rounded-lg bg-slate-800 transition">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
 
-            <!-- Table of Compensation -->
+            <!-- Interactive Sliders / Inputs for Founders -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-950 p-4 rounded-xl border border-slate-800">
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Year 1 Monthly Base (Per Founder in LSL):</label>
+                    <div class="flex items-center space-x-3">
+                        <input type="range" id="sliderBaseY1" min="10000" max="60000" step="5000" value="20000" oninput="updateSalaryPlanner()" class="w-full accent-cyan-400">
+                        <span id="valBaseY1" class="font-mono text-cyan-400 text-sm font-bold w-20">LSL 20k</span>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Year-End Dividend Split (% to Founders):</label>
+                    <div class="flex items-center space-x-3">
+                        <input type="range" id="sliderDivSplit" min="30" max="90" step="5" value="50" oninput="updateSalaryPlanner()" class="w-full accent-emerald-400">
+                        <span id="valDivSplit" class="font-mono text-emerald-400 text-sm font-bold w-16">50%</span>
+                    </div>
+                </div>
+            </div>
+
             <div class="overflow-x-auto">
                 <table class="w-full text-left text-xs">
                     <thead>
@@ -392,168 +317,158 @@
                             <th class="py-2.5 px-3">Managing Director (Base)</th>
                             <th class="py-2.5 px-3">Ops Lead (Base)</th>
                             <th class="py-2.5 px-3">Combined Human Payroll</th>
-                            <th class="py-2.5 px-3 text-right">Est. Dividend Pool (50/50)</th>
+                            <th class="py-2.5 px-3 text-right">Custom Dividend Pool</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-800 text-slate-300">
-                        <tr class="hover:bg-slate-800/40">
-                            <td class="py-2.5 px-3 font-semibold text-cyan-400">Year 1</td>
-                            <td class="py-2.5 px-3">LSL 240,000 <span class="text-slate-500 text-[10px]">(20k/mo)</span></td>
-                            <td class="py-2.5 px-3">LSL 240,000 <span class="text-slate-500 text-[10px]">(20k/mo)</span></td>
-                            <td class="py-2.5 px-3 font-medium">LSL 480,000</td>
-                            <td class="py-2.5 px-3 text-right text-emerald-400 font-semibold">LSL 455,664</td>
-                        </tr>
-                        <tr class="hover:bg-slate-800/40">
-                            <td class="py-2.5 px-3 font-semibold text-cyan-400">Year 2</td>
-                            <td class="py-2.5 px-3">LSL 480,000 <span class="text-slate-500 text-[10px]">(40k/mo)</span></td>
-                            <td class="py-2.5 px-3">LSL 480,000 <span class="text-slate-500 text-[10px]">(40k/mo)</span></td>
-                            <td class="py-2.5 px-3 font-medium">LSL 960,000</td>
-                            <td class="py-2.5 px-3 text-right text-emerald-400 font-semibold">LSL 3,079,032</td>
-                        </tr>
-                        <tr class="hover:bg-slate-800/40">
-                            <td class="py-2.5 px-3 font-semibold text-cyan-400">Year 3</td>
-                            <td class="py-2.5 px-3">LSL 960,000 <span class="text-slate-500 text-[10px]">(80k/mo)</span></td>
-                            <td class="py-2.5 px-3">LSL 960,000 <span class="text-slate-500 text-[10px]">(80k/mo)</span></td>
-                            <td class="py-2.5 px-3 font-medium">LSL 1,920,000</td>
-                            <td class="py-2.5 px-3 text-right text-emerald-400 font-semibold">LSL 10,860,672</td>
-                        </tr>
-                        <tr class="hover:bg-slate-800/40">
-                            <td class="py-2.5 px-3 font-semibold text-cyan-400">Year 4</td>
-                            <td class="py-2.5 px-3">LSL 1,800,000 <span class="text-slate-500 text-[10px]">(150k/mo)</span></td>
-                            <td class="py-2.5 px-3">LSL 1,800,000 <span class="text-slate-500 text-[10px]">(150k/mo)</span></td>
-                            <td class="py-2.5 px-3 font-medium">LSL 3,600,000</td>
-                            <td class="py-2.5 px-3 text-right text-emerald-400 font-semibold">LSL 28,733,472</td>
-                        </tr>
-                        <tr class="hover:bg-slate-800/40">
-                            <td class="py-2.5 px-3 font-semibold text-cyan-400">Year 5</td>
-                            <td class="py-2.5 px-3">LSL 3,000,000 <span class="text-slate-500 text-[10px]">(250k/mo)</span></td>
-                            <td class="py-2.5 px-3">LSL 3,000,000 <span class="text-slate-500 text-[10px]">(250k/mo)</span></td>
-                            <td class="py-2.5 px-3 font-medium">LSL 6,000,000</td>
-                            <td class="py-2.5 px-3 text-right text-emerald-400 font-semibold">LSL 63,486,960</td>
-                        </tr>
+                    <tbody id="salaryTableBody" class="divide-y divide-slate-800 text-slate-300">
+                        <!-- Populated dynamically -->
                     </tbody>
                 </table>
             </div>
 
-            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-[11px] text-slate-400 flex items-start space-x-2">
-                <i data-lucide="info" class="w-4 h-4 text-cyan-400 shrink-0 mt-0.5"></i>
-                <p>Base executive salaries keep company overhead lean during early scaling. Year-end performance dividend pool is distributed 50/50 after maintaining 20% central treasury reserves and tax provisions.</p>
-            </div>
-
-            <div class="flex justify-end">
+            <div class="flex justify-end space-x-3">
+                <button onclick="saveSalaryPreferences()" class="px-4 py-2 bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-slate-950 font-bold text-xs rounded-lg transition">
+                    Save Preferences
+                </button>
                 <button onclick="closeSalaryModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white font-medium text-xs rounded-lg transition">
-                    Close Calculator
+                    Close Planner
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- CLIENT JAVASCRIPT LOGIC & STATE ENGINE -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
     <script>
-        // Global State & Data Models
-        let currentCurrency = 'LSL';
-        const currencyRates = {
-            'LSL': 1.0,
-            'ZAR': 1.0,
-            'USD': 0.055 // 1 LSL approx 0.055 USD
+        // Default App State
+        const defaultState = {
+            currency: 'LSL',
+            scenario: 'expected',
+            salaryY1Base: 20000, // Monthly base per founder
+            dividendSplit: 50,    // %
+            ventures: [
+                {
+                    id: 'contractshield',
+                    name: 'ContractShield',
+                    desc: 'Legal Tech Protection',
+                    status: 'Active',
+                    users: 75,
+                    mrrPerUser: 288,
+                    tokenCost: 11475,
+                    color: 'cyan'
+                },
+                {
+                    id: 'grantflow',
+                    name: 'GrantFlow',
+                    desc: 'NGO Proposal Engine',
+                    status: 'Active',
+                    users: 48,
+                    mrrPerUser: 615,
+                    tokenCost: 9560,
+                    color: 'emerald'
+                },
+                {
+                    id: 'optistock',
+                    name: 'OptiStock',
+                    desc: 'Merchant Intelligence',
+                    status: 'Active',
+                    users: 62,
+                    mrrPerUser: 435,
+                    tokenCost: 5735,
+                    color: 'purple'
+                },
+                {
+                    id: 'skillboost',
+                    name: 'SkillBoost',
+                    desc: 'Next-Gen Reskilling',
+                    status: 'Active',
+                    users: 90,
+                    mrrPerUser: 450,
+                    tokenCost: 7650,
+                    color: 'amber'
+                },
+                {
+                    id: 'climateguard',
+                    name: 'ClimateGuard',
+                    desc: 'Climate Risk Network',
+                    status: 'Active',
+                    users: 20,
+                    mrrPerUser: 1125,
+                    tokenCost: 3830,
+                    color: 'rose'
+                }
+            ],
+            hitlQueue: [
+                {
+                    id: 1,
+                    venture: 'ContractShield',
+                    title: 'High-Risk Redline Review: Enterprise NDA',
+                    desc: 'Indemnity capped at LSL 5,000,000. Verification required before releasing client audit report.',
+                    status: 'pending'
+                },
+                {
+                    id: 2,
+                    venture: 'GrantFlow',
+                    title: 'Grant Submission Authorization',
+                    desc: 'UN Climate Resilience Grant ($45,000 value). Multi-agent proposal generated & score verified at 96% compliance.',
+                    status: 'pending'
+                },
+                {
+                    id: 3,
+                    venture: 'OptiStock',
+                    title: 'Supplier PO #109 Bulk Disbursement',
+                    desc: 'Automated procurement pool of LSL 18,500 waiting for treasury sign-off.',
+                    status: 'pending'
+                }
+            ],
+            logs: [
+                { time: '08:42:10', text: "[System] Nexus Holdings Command Center v2.4 initialized successfully.", color: "text-cyan-400" },
+                { time: '08:42:15', text: "[GrantFlow] Programmatic SEO page published: 'UN Small Grants Lesotho 2026'", color: "text-emerald-400" },
+                { time: '08:42:18', text: "[ContractShield] Signal Outbound sent to 14 freelance developers in Maseru", color: "text-cyan-400" }
+            ]
         };
 
-        const currencySymbols = {
-            'LSL': 'LSL ',
-            'ZAR': 'R ',
-            'USD': '$'
-        };
+        let appState = JSON.parse(localStorage.getItem('nexus_state_v2')) || defaultState;
 
-        // Venture Data Model
-        const ventures = [
-            {
-                id: 'contractshield',
-                name: 'ContractShield',
-                desc: 'Legal Tech Protection',
-                status: 'Operational',
-                mrr: 21600, // in LSL base
-                users: 75,
-                tokenCost: 11475,
-                color: 'cyan',
-                hitlActive: true
-            },
-            {
-                id: 'grantflow',
-                name: 'GrantFlow',
-                desc: 'NGO Proposal Engine',
-                status: 'Operational',
-                mrr: 29550,
-                users: 48,
-                tokenCost: 9560,
-                color: 'emerald',
-                hitlActive: true
-            },
-            {
-                id: 'optistock',
-                name: 'OptiStock',
-                desc: 'Merchant Intelligence',
-                status: 'Operational',
-                mrr: 27000,
-                users: 62,
-                tokenCost: 5735,
-                color: 'purple',
-                hitlActive: false
-            },
-            {
-                id: 'skillboost',
-                name: 'SkillBoost',
-                desc: 'Next-Gen Reskilling',
-                status: 'Operational',
-                mrr: 40500,
-                users: 90,
-                tokenCost: 7650,
-                color: 'amber',
-                hitlActive: false
-            },
-            {
-                id: 'climateguard',
-                name: 'ClimateGuard',
-                desc: 'Climate Risk Network',
-                status: 'Operational',
-                mrr: 22500,
-                users: 20,
-                tokenCost: 3830,
-                color: 'rose',
-                hitlActive: false
-            }
-        ];
+        const currencyRates = { 'LSL': 1.0, 'ZAR': 1.0, 'USD': 0.055 };
+        const currencySymbols = { 'LSL': 'LSL ', 'ZAR': 'R ', 'USD': '$' };
 
-        // Financial Scenarios Data (in LSL)
-        const financialScenarios = {
-            expected: {
-                labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
-                revenue: [1693800, 7223400, 22640400, 56570400, 120582000],
-                expenses: [459000, 1566000, 4410000, 10080000, 20160000],
-                netProfit: [1234800, 5657400, 18230400, 46490400, 100422000]
-            },
-            best: {
-                labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
-                revenue: [3200000, 15000000, 48000000, 125000000, 260000000],
-                expenses: [750000, 2800000, 8200000, 19500000, 38000000],
-                netProfit: [2450000, 12200000, 39800000, 105500000, 222000000]
-            },
-            worst: {
-                labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
-                revenue: [450000, 1800000, 4500000, 9800000, 18000000],
-                expenses: [180000, 540000, 1250000, 2600000, 4500000],
-                netProfit: [270000, 1260000, 3250000, 7200000, 13500000]
-            }
-        };
-
-        // Chart References
         let financialChartInstance = null;
         let tokenChartInstance = null;
 
-        // Format Currency Helper
+        function saveState() {
+            localStorage.setItem('nexus_state_v2', JSON.stringify(appState));
+        }
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `pointer-events-auto px-4 py-3 rounded-xl border text-xs font-medium shadow-2xl transition-all duration-300 transform translate-y-2 opacity-0 flex items-center space-x-2 ${
+                type === 'success' 
+                ? 'bg-slate-900 border-emerald-500/40 text-emerald-300' 
+                : 'bg-slate-900 border-cyan-500/40 text-cyan-300'
+            }`;
+            toast.innerHTML = `
+                <i data-lucide="${type === 'success' ? 'check-circle-2' : 'info'}" class="w-4 h-4 shrink-0"></i>
+                <span>${message}</span>
+            `;
+            container.appendChild(toast);
+            lucide.createIcons();
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-2', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
         function formatMoney(amountInLSL) {
-            const rate = currencyRates[currentCurrency];
+            const rate = currencyRates[appState.currency];
             const converted = amountInLSL * rate;
-            const symbol = currencySymbols[currentCurrency];
+            const symbol = currencySymbols[appState.currency];
 
             if (converted >= 1000000) {
                 return symbol + (converted / 1000000).toFixed(2) + 'M';
@@ -564,90 +479,282 @@
             }
         }
 
+        // Calculations
+        function calculateMetrics() {
+            let totalMRR = 0;
+            let totalTokenBurn = 0;
+            let totalUsers = 0;
+
+            appState.ventures.forEach(v => {
+                if (v.status !== 'Paused') {
+                    totalMRR += (v.users * v.mrrPerUser);
+                    totalTokenBurn += v.tokenCost;
+                    totalUsers += Number(v.users);
+                }
+            });
+
+            const combinedAnnualRev = totalMRR * 12;
+            const treasuryReserve = combinedAnnualRev * 0.05; // 5% buffer
+            const taxReserve = combinedAnnualRev * 0.11;     // RSL estimate
+
+            return {
+                mrr: totalMRR,
+                annualRev: combinedAnnualRev,
+                tokenBurn: totalTokenBurn,
+                users: totalUsers,
+                treasury: treasuryReserve,
+                tax: taxReserve
+            };
+        }
+
+        function updateKPIs() {
+            const m = calculateMetrics();
+            document.getElementById('kpiCombinedMRR').innerText = formatMoney(m.mrr);
+            document.getElementById('kpiTokenBurn').innerText = formatMoney(m.tokenBurn);
+            document.getElementById('kpiActiveUsers').innerText = m.users.toLocaleString();
+            document.getElementById('kpiTreasury').innerText = formatMoney(m.treasury);
+            document.getElementById('kpiTaxReserve').innerText = formatMoney(m.tax);
+        }
+
         // Render Ventures Grid
         function renderVenturesGrid() {
             const grid = document.getElementById('venturesGrid');
             grid.innerHTML = '';
 
-            ventures.forEach(v => {
+            appState.ventures.forEach((v, index) => {
+                const computedMRR = v.users * v.mrrPerUser;
                 const card = document.createElement('div');
-                card.className = 'bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-xl p-4 flex flex-col justify-between transition shadow-md';
-                
+                card.className = `bg-slate-900 border rounded-xl p-4 flex flex-col justify-between transition shadow-md ${
+                    v.status === 'Paused' ? 'border-rose-900/50 opacity-60' : 'border-slate-800 hover:border-slate-700'
+                }`;
+
                 card.innerHTML = `
                     <div>
                         <div class="flex items-center justify-between mb-2">
                             <span class="text-xs font-bold text-white">${v.name}</span>
-                            <span class="flex items-center space-x-1 text-[10px] text-emerald-400 bg-emerald-950/60 border border-emerald-800/50 px-2 py-0.5 rounded-full">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                                <span>${v.status}</span>
-                            </span>
+                            <select onchange="updateVentureStatus(${index}, this.value)" class="bg-slate-800 text-[10px] text-slate-200 border border-slate-700 rounded px-1.5 py-0.5 focus:outline-none cursor-pointer">
+                                <option value="Active" ${v.status === 'Active' ? 'selected' : ''}>Active</option>
+                                <option value="Autonomous Optimization" ${v.status === 'Autonomous Optimization' ? 'selected' : ''}>Autonomous</option>
+                                <option value="Paused" ${v.status === 'Paused' ? 'selected' : ''}>Paused</option>
+                            </select>
                         </div>
                         <p class="text-[11px] text-slate-400 mb-3">${v.desc}</p>
                         
-                        <div class="space-y-1.5 text-xs">
-                            <div class="flex justify-between">
-                                <span class="text-slate-500">MRR:</span>
-                                <span class="font-semibold text-white">${formatMoney(v.mrr)}</span>
+                        <div class="space-y-2 text-xs">
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-400">Users: <span class="text-white font-semibold" id="userVal-${index}">${v.users}</span></span>
+                                <span class="font-semibold text-emerald-400">${formatMoney(computedMRR)} MRR</span>
                             </div>
-                            <div class="flex justify-between">
-                                <span class="text-slate-500">Active Users:</span>
-                                <span class="font-medium text-slate-200">${v.users}</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-slate-500">Token Cost:</span>
-                                <span class="font-mono text-amber-300 text-[11px]">${formatMoney(v.tokenCost)}/mo</span>
+                            <input type="range" min="5" max="250" step="1" value="${v.users}" oninput="handleUserSlider(${index}, this.value)" class="w-full accent-cyan-400 cursor-pointer">
+
+                            <div class="flex justify-between items-center pt-1">
+                                <span class="text-slate-400 text-[11px]">Token Burn:</span>
+                                <input type="number" min="500" max="50000" step="500" value="${v.tokenCost}" onchange="handleTokenCostChange(${index}, this.value)" class="w-24 bg-slate-950 border border-slate-800 rounded px-1.5 py-0.5 text-right text-amber-300 font-mono text-[11px] focus:outline-none focus:border-cyan-500">
                             </div>
                         </div>
                     </div>
 
                     <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px]">
-                        <span class="text-slate-400">HITL Safety:</span>
-                        <button onclick="toggleHitl('${v.id}')" class="px-2 py-1 rounded text-[10px] font-semibold border transition ${
-                            v.hitlActive 
-                            ? 'bg-cyan-950 text-cyan-300 border-cyan-800' 
-                            : 'bg-slate-800 text-slate-400 border-slate-700'
-                        }">
-                            ${v.hitlActive ? 'ACTIVE' : 'OFF'}
-                        </button>
+                        <span class="text-slate-500">AI Agents</span>
+                        <span class="text-cyan-400 font-mono text-[10px] bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-800/50">LangGraph v0.2</span>
                     </div>
                 `;
                 grid.appendChild(card);
             });
         }
 
-        // Toggle HITL for venture
-        function toggleHitl(id) {
-            const v = ventures.find(item => item.id === id);
-            if (v) {
-                v.hitlActive = !v.hitlActive;
-                renderVenturesGrid();
+        function updateVentureStatus(index, newStatus) {
+            appState.ventures[index].status = newStatus;
+            saveState();
+            updateKPIs();
+            showToast(`${appState.ventures[index].name} status updated to ${newStatus}`, 'info');
+        }
+
+        function handleUserSlider(index, val) {
+            appState.ventures[index].users = Number(val);
+            document.getElementById(`userVal-${index}`).innerText = val;
+            saveState();
+            updateKPIs();
+            updateChartsData();
+        }
+
+        function handleTokenCostChange(index, val) {
+            appState.ventures[index].tokenCost = Number(val);
+            saveState();
+            updateKPIs();
+        }
+
+        // Render HITL Queue
+        function renderHitlQueue() {
+            const list = document.getElementById('hitlList');
+            const badge = document.getElementById('hitlBadge');
+            list.innerHTML = '';
+
+            const pendingItems = appState.hitlQueue.filter(item => item.status === 'pending');
+            badge.innerText = `${pendingItems.length} Pending`;
+
+            if (pendingItems.length === 0) {
+                list.innerHTML = `
+                    <div class="p-6 text-center text-slate-500 text-xs italic">
+                        All verification queues cleared. Zero pending approvals.
+                    </div>
+                `;
+                return;
+            }
+
+            appState.hitlQueue.forEach(item => {
+                if (item.status !== 'pending') return;
+
+                const div = document.createElement('div');
+                div.className = 'bg-slate-950/60 border border-slate-800/80 rounded-xl p-3.5 space-y-2';
+                div.innerHTML = `
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <span class="inline-block px-2 py-0.5 text-[10px] bg-cyan-900/50 text-cyan-300 border border-cyan-700/50 rounded mb-1">${item.venture}</span>
+                            <h4 class="text-sm font-semibold text-slate-200">${item.title}</h4>
+                            <p class="text-xs text-slate-400 mt-0.5">${item.desc}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-end space-x-2 pt-1">
+                        <button onclick="resolveHitl(${item.id}, 'rejected')" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded-lg border border-slate-700 transition">
+                            Reject
+                        </button>
+                        <button onclick="resolveHitl(${item.id}, 'approved')" class="px-3 py-1 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs rounded-lg transition flex items-center space-x-1">
+                            <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                            <span>Approve</span>
+                        </button>
+                    </div>
+                `;
+                list.appendChild(div);
+            });
+            lucide.createIcons();
+        }
+
+        function resolveHitl(id, decision) {
+            const item = appState.hitlQueue.find(i => i.id === id);
+            if (item) {
+                item.status = decision;
+                saveState();
+                renderHitlQueue();
+                showToast(`Item #${id} ${decision} successfully.`, decision === 'approved' ? 'success' : 'info');
+                addLogEntry(`[HITL] Executive verified ${item.venture}: ${item.title} -> ${decision.toUpperCase()}`, decision === 'approved' ? 'text-emerald-400' : 'text-rose-400');
             }
         }
 
-        // Currency Selector Switcher
-        function updateCurrencyDisplay() {
-            const select = document.getElementById('currencySelect');
-            currentCurrency = select.value;
-
-            // Update KPI Cards
-            document.getElementById('kpiCombinedRevenue').innerText = formatMoney(1693800);
-            document.getElementById('kpiTokenBurn').innerText = formatMoney(38250);
-            document.getElementById('kpiTreasury').innerText = formatMoney(113916);
-            document.getElementById('kpiTaxReserve').innerText = formatMoney(185220);
-
-            // Re-render Venture Grid
-            renderVenturesGrid();
-
-            // Re-render Financial Chart
-            updateChartsScenario();
+        function resetHitlQueue() {
+            appState.hitlQueue.forEach(i => i.status = 'pending');
+            saveState();
+            renderHitlQueue();
+            showToast('HITL queue items restored.', 'info');
         }
 
-        // Initialize Financial Chart (Chart.js)
+        // GrowthAgent Log & Terminal
+        function addLogEntry(text, colorClass = 'text-cyan-400') {
+            const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            appState.logs.unshift({ time: timeStr, text: text, color: colorClass });
+            if (appState.logs.length > 30) appState.logs.pop();
+            saveState();
+            renderLogs();
+        }
+
+        function renderLogs() {
+            const container = document.getElementById('growthLog');
+            container.innerHTML = '';
+            appState.logs.forEach(log => {
+                const div = document.createElement('div');
+                div.className = 'flex items-start space-x-2 text-[11px] leading-tight';
+                div.innerHTML = `
+                    <span class="text-slate-500 shrink-0 font-mono">${log.time}</span>
+                    <span class="${log.color}">${log.text}</span>
+                `;
+                container.appendChild(div);
+            });
+            container.scrollTop = 0;
+        }
+
+        function triggerGrowthAgentScan() {
+            const actions = [
+                { text: "[GrowthAgent] Deployed A/B test variant B for OptiStock reorder flow (+14% conversion)", color: "text-purple-400" },
+                { text: "[GrowthAgent] Programmatic SEO generated 12 localized grant templates for GrantFlow", color: "text-emerald-400" },
+                { text: "[GrowthAgent] Signal outbound campaign dispatched to 35 regional enterprise leads", color: "text-cyan-400" },
+                { text: "[GrowthAgent] SkillBoost module 'AI Agent Architect' published with 140 signups", color: "text-amber-400" }
+            ];
+            const randomAction = actions[Math.floor(Math.random() * actions.length)];
+            addLogEntry(randomAction.text, randomAction.color);
+            showToast('GrowthAgent campaign executed successfully.');
+        }
+
+        // Terminal CLI handling
+        function handleTerminalKey(e) {
+            if (e.key === 'Enter') {
+                executeTerminalCommand();
+            }
+        }
+
+        function executeTerminalCommand() {
+            const input = document.getElementById('terminalInput');
+            const cmd = input.value.trim().toLowerCase();
+            if (!cmd) return;
+
+            addLogEntry(`> ${cmd}`, 'text-slate-300');
+
+            if (cmd === 'help') {
+                addLogEntry("[Terminal] Available commands: status, audit contracts, reallocate, deploy agent, clear", 'text-cyan-400');
+            } else if (cmd === 'status') {
+                const m = calculateMetrics();
+                addLogEntry(`[Terminal] System Nominal. MRR: LSL ${m.mrr.toLocaleString()}, Active Users: ${m.users}`, 'text-emerald-400');
+            } else if (cmd.includes('audit')) {
+                addLogEntry("[Terminal] ContractShield RAG pipeline active. 0 critical liabilities detected.", 'text-cyan-400');
+            } else if (cmd.includes('reallocate')) {
+                addLogEntry("[Terminal] Token compute reallocated dynamically across active child ventures.", 'text-amber-400');
+            } else if (cmd.includes('deploy')) {
+                addLogEntry("[Terminal] New child agent container spawned successfully on cluster node US-East.", 'text-emerald-400');
+            } else if (cmd === 'clear') {
+                appState.logs = [];
+                saveState();
+                renderLogs();
+            } else {
+                addLogEntry(`[Terminal] Unknown command '${cmd}'. Type 'help' for instructions.`, 'text-rose-400');
+            }
+
+            input.value = '';
+        }
+
+        // Charts & Scenarios
+        function getScenarioData() {
+            const m = calculateMetrics();
+            const baseRev = m.annualRev || 1693800;
+
+            if (appState.scenario === 'best') {
+                return {
+                    labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
+                    revenue: [baseRev * 1.5, baseRev * 4.2, baseRev * 12.5, baseRev * 32.0, baseRev * 75.0],
+                    expenses: [450000, 1200000, 3500000, 8500000, 18000000],
+                    netProfit: [baseRev * 1.5 - 450000, baseRev * 4.2 - 1200000, baseRev * 12.5 - 3500000, baseRev * 32.0 - 8500000, baseRev * 75.0 - 18000000]
+                };
+            } else if (appState.scenario === 'worst') {
+                return {
+                    labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
+                    revenue: [baseRev * 0.4, baseRev * 0.9, baseRev * 1.8, baseRev * 3.5, baseRev * 6.0],
+                    expenses: [300000, 600000, 1200000, 2400000, 4500000],
+                    netProfit: [baseRev * 0.4 - 300000, baseRev * 0.9 - 600000, baseRev * 1.8 - 1200000, baseRev * 3.5 - 2400000, baseRev * 6.0 - 4500000]
+                };
+            } else {
+                // Expected
+                return {
+                    labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
+                    revenue: [baseRev, baseRev * 3.2, baseRev * 9.8, baseRev * 24.5, baseRev * 52.0],
+                    expenses: [459000, 1566000, 4410000, 10080000, 20160000],
+                    netProfit: [baseRev - 459000, baseRev * 3.2 - 1566000, baseRev * 9.8 - 4410000, baseRev * 24.5 - 10080000, baseRev * 52.0 - 20160000]
+                };
+            }
+        }
+
         function initFinancialChart() {
             const ctx = document.getElementById('financialChart').getContext('2d');
-            const data = financialScenarios.expected;
-            const rate = currencyRates[currentCurrency];
-            const symbol = currencySymbols[currentCurrency];
+            const data = getScenarioData();
+            const rate = currencyRates[appState.currency];
+            const symbol = currencySymbols[appState.currency];
 
             financialChartInstance = new Chart(ctx, {
                 type: 'bar',
@@ -685,19 +792,14 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: {
-                            labels: {
-                                color: '#94a3b8',
-                                font: { size: 11 }
-                            }
-                        },
+                        legend: { labels: { color: '#94a3b8', font: { size: 11 } } },
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
                                     let label = context.dataset.label || '';
                                     if (label) label += ': ';
                                     if (context.parsed.y !== null) {
-                                        label += symbol + (context.parsed.y).toLocaleString('en-US');
+                                        label += symbol + (context.parsed.y).toLocaleString('en-US', { maximumFractionDigits: 0 });
                                     }
                                     return label;
                                 }
@@ -705,17 +807,14 @@
                         }
                     },
                     scales: {
-                        x: {
-                            ticks: { color: '#64748b', font: { size: 11 } },
-                            grid: { color: 'rgba(30, 41, 59, 0.5)' }
-                        },
+                        x: { ticks: { color: '#64748b', font: { size: 11 } }, grid: { color: 'rgba(30, 41, 59, 0.5)' } },
                         y: {
                             ticks: {
                                 color: '#64748b',
                                 font: { size: 10 },
                                 callback: function(value) {
-                                    if (value >= 1000000) return symbol + (value / 1000000) + 'M';
-                                    if (value >= 1000) return symbol + (value / 1000) + 'k';
+                                    if (value >= 1000000) return symbol + (value / 1000000).toFixed(1) + 'M';
+                                    if (value >= 1000) return symbol + (value / 1000).toFixed(0) + 'k';
                                     return symbol + value;
                                 }
                             },
@@ -726,11 +825,11 @@
             });
         }
 
-        // Update Financial Chart based on Scenario dropdown
-        function updateChartsScenario() {
-            const scenarioKey = document.getElementById('scenarioSelect').value;
-            const data = financialScenarios[scenarioKey];
-            const rate = currencyRates[currentCurrency];
+        function updateChartsData() {
+            appState.scenario = document.getElementById('scenarioSelect').value;
+            saveState();
+            const data = getScenarioData();
+            const rate = currencyRates[appState.currency];
 
             if (financialChartInstance) {
                 financialChartInstance.data.datasets[0].data = data.netProfit.map(v => v * rate);
@@ -740,22 +839,23 @@
             }
         }
 
-        // Initialize Token Allocation Doughnut Chart
+        function updateChartsScenario() {
+            updateChartsData();
+        }
+
         function initTokenChart() {
             const ctx = document.getElementById('tokenAllocationChart').getContext('2d');
+            const burnData = appState.ventures.map(v => v.tokenCost);
+            const labels = appState.ventures.map(v => v.name);
+            const colors = ['#22d3ee', '#34d399', '#c084fc', '#fbbf24', '#fb7185'];
+
             tokenChartInstance = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: ['ContractShield', 'GrantFlow', 'SkillBoost', 'OptiStock', 'ClimateGuard'],
+                    labels: labels,
                     datasets: [{
-                        data: [30, 25, 20, 15, 10],
-                        backgroundColor: [
-                            '#22d3ee', // Cyan
-                            '#34d399', // Emerald
-                            '#fbbf24', // Amber
-                            '#c084fc', // Purple
-                            '#fb7185'  // Rose
-                        ],
+                        data: burnData,
+                        backgroundColor: colors,
                         borderWidth: 2,
                         borderColor: '#0f172a'
                     }]
@@ -764,71 +864,38 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     cutout: '70%',
-                    plugins: {
-                        legend: { display: false }
-                    }
+                    plugins: { legend: { display: false } }
                 }
+            });
+
+            // Render legend
+            const legendContainer = document.getElementById('tokenLegend');
+            legendContainer.innerHTML = '';
+            appState.ventures.forEach((v, idx) => {
+                const div = document.createElement('div');
+                div.className = 'flex items-center space-x-1.5';
+                div.innerHTML = `
+                    <span class="w-2.5 h-2.5 rounded-full" style="background-color: ${colors[idx]}"></span>
+                    <span class="truncate">${v.name}</span>
+                `;
+                legendContainer.appendChild(div);
             });
         }
 
-        // GrowthAgent Live Logging Simulator
-        const sampleLogs = [
-            { text: "[GrantFlow] Programmatic SEO page published: 'UN Small Grants Lesotho 2026 Guidelines'", color: "text-emerald-400" },
-            { text: "[ContractShield] Signal Outbound sent to 14 freelance developers on LinkedIn", color: "text-cyan-400" },
-            { text: "[OptiStock] A/B Test winning variant adopted: +18% conversion on merchant reorder calculator", color: "text-purple-400" },
-            { text: "[SkillBoost] Automated email sequence delivered to 45 corporate leads", color: "text-amber-400" },
-            { text: "[ClimateGuard] Spatial API webhook synchronized with Copernicus weather rasters", color: "text-rose-400" }
-        ];
-
-        function addLogEntry() {
-            const logContainer = document.getElementById('growthLog');
-            const randomLog = sampleLogs[Math.floor(Math.random() * sampleLogs.length)];
-            const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-
-            const logItem = document.createElement('div');
-            logItem.className = 'flex items-start space-x-2 text-[11px] leading-tight opacity-0 transition-all duration-300 transform -translate-y-1';
-            logItem.innerHTML = `
-                <span class="text-slate-500 shrink-0 font-mono">${timeStr}</span>
-                <span class="${randomLog.color}">${randomLog.text}</span>
-            `;
-
-            logContainer.prepend(logItem);
-            setTimeout(() => {
-                logItem.classList.remove('opacity-0', '-translate-y-1');
-            }, 50);
-
-            // Keep log size manageable
-            if (logContainer.children.length > 12) {
-                logContainer.removeChild(logContainer.lastChild);
-            }
+        // Currency Switcher
+        function updateCurrencyDisplay() {
+            appState.currency = document.getElementById('currencySelect').value;
+            saveState();
+            updateKPIs();
+            updateChartsData();
+            renderVenturesGrid();
         }
 
-        function triggerGrowthAgentScan() {
-            addLogEntry();
-            addLogEntry();
-        }
-
-        // HITL Actions
-        function approveHitl(id) {
-            const item = document.getElementById(`hitl-item-${id}`);
-            if (item) {
-                item.style.opacity = '0.4';
-                item.style.pointerEvents = 'none';
-                item.innerHTML = `<div class="p-2 text-xs text-emerald-400 bg-emerald-950/50 rounded border border-emerald-800">Approved & Processed by Executive</div>`;
-            }
-        }
-
-        function rejectHitl(id) {
-            const item = document.getElementById(`hitl-item-${id}`);
-            if (item) {
-                item.style.opacity = '0.4';
-                item.style.pointerEvents = 'none';
-                item.innerHTML = `<div class="p-2 text-xs text-rose-400 bg-rose-950/50 rounded border border-rose-800">Returned to Agent for Revision</div>`;
-            }
-        }
-
-        // Salary Modal Handlers
+        // Salary Modal & Planner Logic
         function openSalaryModal() {
+            document.getElementById('sliderBaseY1').value = appState.salaryY1Base;
+            document.getElementById('sliderDivSplit').value = appState.dividendSplit;
+            updateSalaryPlanner();
             document.getElementById('salaryModal').classList.remove('hidden');
         }
 
@@ -836,20 +903,84 @@
             document.getElementById('salaryModal').classList.add('hidden');
         }
 
-        // Initialize on Window Load
+        function updateSalaryPlanner() {
+            const baseY1 = Number(document.getElementById('sliderBaseY1').value);
+            const divSplit = Number(document.getElementById('sliderDivSplit').value);
+
+            document.getElementById('valBaseY1').innerText = `LSL ${(baseY1/1000).toFixed(0)}k`;
+            document.getElementById('valDivSplit').innerText = `${divSplit}%`;
+
+            const tbody = document.getElementById('salaryTableBody');
+            tbody.innerHTML = '';
+
+            const years = [
+                { yr: 'Year 1', multiplier: 1.0, divPoolMultiplier: 0.45 },
+                { yr: 'Year 2', multiplier: 2.0, divPoolMultiplier: 3.0 },
+                { yr: 'Year 3', multiplier: 4.0, divPoolMultiplier: 10.5 },
+                { yr: 'Year 4', multiplier: 7.5, divPoolMultiplier: 28.0 },
+                { yr: 'Year 5', multiplier: 12.5, divPoolMultiplier: 62.0 }
+            ];
+
+            years.forEach(y => {
+                const founderBaseAnnual = baseY1 * 12 * y.multiplier;
+                const combinedPayroll = founderBaseAnnual * 2;
+                const customDivPool = (1693800 * y.divPoolMultiplier) * (divSplit / 50);
+
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-800/40';
+                tr.innerHTML = `
+                    <td class="py-2.5 px-3 font-semibold text-cyan-400">${y.yr}</td>
+                    <td class="py-2.5 px-3">LSL ${founderBaseAnnual.toLocaleString()}</td>
+                    <td class="py-2.5 px-3">LSL ${founderBaseAnnual.toLocaleString()}</td>
+                    <td class="py-2.5 px-3 font-medium">LSL ${combinedPayroll.toLocaleString()}</td>
+                    <td class="py-2.5 px-3 text-right text-emerald-400 font-semibold">LSL ${Math.round(customDivPool).toLocaleString()}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function saveSalaryPreferences() {
+            appState.salaryY1Base = Number(document.getElementById('sliderBaseY1').value);
+            appState.dividendSplit = Number(document.getElementById('sliderDivSplit').value);
+            saveState();
+            showToast('Executive salary and dividend preferences saved.');
+            closeSalaryModal();
+        }
+
+        // Export State JSON
+        function exportStateJson() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", "nexus_holdings_state.json");
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+            showToast('Dashboard state exported as JSON.');
+        }
+
+        // Reset State
+        function resetDashboardState() {
+            localStorage.removeItem('nexus_state_v2');
+            appState = JSON.parse(JSON.stringify(defaultState));
+            saveState();
+            window.location.reload();
+        }
+
+        // Window Init
         window.onload = function() {
+            document.getElementById('currencySelect').value = appState.currency;
+            document.getElementById('scenarioSelect').value = appState.scenario;
+
             lucide.createIcons();
+            updateKPIs();
             renderVenturesGrid();
+            renderHitlQueue();
+            renderLogs();
             initFinancialChart();
             initTokenChart();
 
-            // Populate initial growth log
-            for (let i = 0; i < 4; i++) {
-                addLogEntry();
-            }
-
-            // Periodically add simulated logs
-            setInterval(addLogEntry, 8000);
+            showToast('Nexus Command Center loaded successfully.');
         };
     </script>
 </body>

@@ -43,7 +43,6 @@
         .glow-cyan { box-shadow: 0 0 20px rgba(34, 211, 238, 0.12); }
         .glow-emerald { box-shadow: 0 0 20px rgba(52, 211, 153, 0.12); }
     </style>
-  
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col selection:bg-cyan-500 selection:text-slate-950">
 
@@ -60,10 +59,10 @@
                     </div>
                     <div class="flex items-center space-x-2 text-[11px] text-slate-400">
                         <span class="relative flex h-2 w-2">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                            <span id="statusPulse" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span id="statusDot" class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                         </span>
-                        <span id="liveStatusText" class="text-emerald-400 font-medium">System Synchronized & Autonomous</span>
+                        <span id="liveStatusText" class="text-emerald-400 font-medium">Connecting to Supabase...</span>
                     </div>
                 </div>
             </div>
@@ -104,7 +103,7 @@
                     <span>Combined MRR</span>
                     <i data-lucide="trending-up" class="w-4 h-4 text-emerald-400"></i>
                 </div>
-                <div id="kpiCombinedMRR" class="text-base sm:text-xl font-bold text-white">LSL 141,150</div>
+                <div id="kpiCombinedMRR" class="text-base sm:text-xl font-bold text-white">LSL 0</div>
                 <div class="text-[10px] text-emerald-400 font-medium mt-1">Live Portfolio Run-Rate</div>
             </div>
 
@@ -122,7 +121,7 @@
                     <span>API Token Burn</span>
                     <i data-lucide="cpu" class="w-4 h-4 text-amber-400"></i>
                 </div>
-                <div id="kpiTokenBurn" class="text-base sm:text-xl font-bold text-amber-300">LSL 38,250</div>
+                <div id="kpiTokenBurn" class="text-base sm:text-xl font-bold text-amber-300">LSL 0</div>
                 <div class="text-[10px] text-slate-400 mt-1">Monthly LLM Compute</div>
             </div>
 
@@ -131,7 +130,7 @@
                     <span>Active Users</span>
                     <i data-lucide="users" class="w-4 h-4 text-cyan-400"></i>
                 </div>
-                <div id="kpiActiveUsers" class="text-base sm:text-xl font-bold text-white">295</div>
+                <div id="kpiActiveUsers" class="text-base sm:text-xl font-bold text-white">0</div>
                 <div class="text-[10px] text-emerald-400 font-medium mt-1">Across 5 ventures</div>
             </div>
 
@@ -140,7 +139,7 @@
                     <span>Treasury Reserve</span>
                     <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
                 </div>
-                <div id="kpiTreasury" class="text-base sm:text-xl font-bold text-cyan-300">LSL 113,916</div>
+                <div id="kpiTreasury" class="text-base sm:text-xl font-bold text-cyan-300">LSL 0</div>
                 <div class="text-[10px] text-slate-400 mt-1">20% Holding Buffer</div>
             </div>
 
@@ -149,11 +148,12 @@
                     <span>RSL Tax Provision</span>
                     <i data-lucide="landmark" class="w-4 h-4 text-rose-400"></i>
                 </div>
-                <div id="kpiTaxReserve" class="text-base sm:text-xl font-bold text-rose-300">LSL 185,220</div>
+                <div id="kpiTaxReserve" class="text-base sm:text-xl font-bold text-rose-300">LSL 0</div>
                 <div class="text-[10px] text-slate-400 mt-1">Lesotho Tax Compliance</div>
             </div>
         </section>
 
+        <!-- Charts Section -->
         <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-800 gap-2">
@@ -197,6 +197,7 @@
             </div>
         </section>
 
+        <!-- Portfolio Grid Section -->
         <section class="space-y-3">
             <div class="flex items-center justify-between">
                 <div>
@@ -206,7 +207,7 @@
                     </h2>
                     <p class="text-xs text-slate-400">Adjust active user counts, token burn rates, and operational modes instantly</p>
                 </div>
-                <span class="text-xs text-cyan-400 font-mono bg-cyan-950/50 px-2.5 py-1 rounded-lg border border-cyan-800/60">Persistent State Saved</span>
+                <span class="text-xs text-cyan-400 font-mono bg-cyan-950/50 px-2.5 py-1 rounded-lg border border-cyan-800/60">Supabase Realtime Synced</span>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4" id="venturesGrid">
@@ -214,8 +215,9 @@
             </div>
         </section>
 
+        <!-- Bottom Row: GrowthAgent Feed & HITL Queue -->
         <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <!-- Live Activity Log -->
+            <!-- GrowthAgent Feed & Terminal -->
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col">
                 <div class="flex items-center justify-between pb-4 border-b border-slate-800">
                     <div class="flex items-center space-x-2">
@@ -276,6 +278,7 @@
         </section>
     </main>
 
+    <!-- Salary Modal -->
     <div id="salaryModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-3xl w-full p-6 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto">
             <div class="flex items-center justify-between border-b border-slate-800 pb-4">
@@ -342,89 +345,37 @@
     <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col space-y-2 pointer-events-none"></div>
 
     <script>
-        // Default App State
+        // ============================================================================
+        // SUPABASE CONFIGURATION - PASTE YOUR PROJECT DETAILS HERE
+        // ============================================================================
+        const SUPABASE_URL = 'https://ljzfsqnyxsaigsjpnxuu.supabase.co'; // Replace with your URL
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqemZzcW55eHNhaWdzanBueHV1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE4NTI4NTMsImV4cCI6MjEwNzQyODg1M30.yGQB3h_axyIQTmix09njxVNklUOhO1qShO0NGYu6RTs';        // Replace with your Anon Key
+        
+        let supabaseClient = null;
+        if (SUPABASE_URL !== 'https://YOUR_PROJECT_ID.supabase.co' && window.supabase) {
+            supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        }
+
+        // Default App Fallback State
         const defaultState = {
             currency: 'LSL',
             scenario: 'expected',
-            salaryY1Base: 20000, // Monthly base per founder
-            dividendSplit: 50,    // %
+            salaryY1Base: 20000,
+            dividendSplit: 50,
             ventures: [
-                {
-                    id: 'contractshield',
-                    name: 'ContractShield',
-                    desc: 'Legal Tech Protection',
-                    status: 'Active',
-                    users: 75,
-                    mrrPerUser: 288,
-                    tokenCost: 11475,
-                    color: 'cyan'
-                },
-                {
-                    id: 'grantflow',
-                    name: 'GrantFlow',
-                    desc: 'NGO Proposal Engine',
-                    status: 'Active',
-                    users: 48,
-                    mrrPerUser: 615,
-                    tokenCost: 9560,
-                    color: 'emerald'
-                },
-                {
-                    id: 'optistock',
-                    name: 'OptiStock',
-                    desc: 'Merchant Intelligence',
-                    status: 'Active',
-                    users: 62,
-                    mrrPerUser: 435,
-                    tokenCost: 5735,
-                    color: 'purple'
-                },
-                {
-                    id: 'skillboost',
-                    name: 'SkillBoost',
-                    desc: 'Next-Gen Reskilling',
-                    status: 'Active',
-                    users: 90,
-                    mrrPerUser: 450,
-                    tokenCost: 7650,
-                    color: 'amber'
-                },
-                {
-                    id: 'climateguard',
-                    name: 'ClimateGuard',
-                    desc: 'Climate Risk Network',
-                    status: 'Active',
-                    users: 20,
-                    mrrPerUser: 1125,
-                    tokenCost: 3830,
-                    color: 'rose'
-                }
+                { id: 'contractshield', db_id: null, name: 'ContractShield', desc: 'Legal Tech Protection', status: 'Active', users: 75, mrrPerUser: 288, tokenCost: 11475, color: 'cyan' },
+                { id: 'grantflow', db_id: null, name: 'GrantFlow', desc: 'NGO Proposal Engine', status: 'Active', users: 48, mrrPerUser: 615, tokenCost: 9560, color: 'emerald' },
+                { id: 'optistock', db_id: null, name: 'OptiStock', desc: 'Merchant Intelligence', status: 'Active', users: 62, mrrPerUser: 435, tokenCost: 5735, color: 'purple' },
+                { id: 'skillboost', db_id: null, name: 'SkillBoost', desc: 'Next-Gen Reskilling', status: 'Active', users: 90, mrrPerUser: 450, tokenCost: 7650, color: 'amber' },
+                { id: 'climateguard', db_id: null, name: 'ClimateGuard', desc: 'Climate Risk Network', status: 'Active', users: 20, mrrPerUser: 1125, tokenCost: 3830, color: 'rose' }
             ],
             hitlQueue: [
-                {
-                    id: 1,
-                    venture: 'ContractShield',
-                    title: 'High-Risk Redline Review: Enterprise NDA',
-                    desc: 'Indemnity capped at LSL 5,000,000. Verification required before releasing client audit report.',
-                    status: 'pending'
-                },
-                {
-                    id: 2,
-                    venture: 'GrantFlow',
-                    title: 'Grant Submission Authorization',
-                    desc: 'UN Climate Resilience Grant ($45,000 value). Multi-agent proposal generated & score verified at 96% compliance.',
-                    status: 'pending'
-                },
-                {
-                    id: 3,
-                    venture: 'OptiStock',
-                    title: 'Supplier PO #109 Bulk Disbursement',
-                    desc: 'Automated procurement pool of LSL 18,500 waiting for treasury sign-off.',
-                    status: 'pending'
-                }
+                { id: 1, venture: 'ContractShield', title: 'High-Risk Redline Review: Enterprise NDA', desc: 'Indemnity capped at LSL 5,000,000. Verification required before releasing client audit report.', status: 'pending' },
+                { id: 2, venture: 'GrantFlow', title: 'Grant Submission Authorization', desc: 'UN Climate Resilience Grant ($45,000 value). Multi-agent proposal generated & score verified at 96% compliance.', status: 'pending' },
+                { id: 3, venture: 'OptiStock', title: 'Supplier PO #109 Bulk Disbursement', desc: 'Automated procurement pool of LSL 18,500 waiting for treasury sign-off.', status: 'pending' }
             ],
             logs: [
-                { time: '08:42:10', text: "[System] Nexus Holdings Command Center v2.4 initialized successfully.", color: "text-cyan-400" },
+                { time: '08:42:10', text: "[System] Nexus Holdings Command Center v2.4 initialized.", color: "text-cyan-400" },
                 { time: '08:42:15', text: "[GrantFlow] Programmatic SEO page published: 'UN Small Grants Lesotho 2026'", color: "text-emerald-400" },
                 { time: '08:42:18', text: "[ContractShield] Signal Outbound sent to 14 freelance developers in Maseru", color: "text-cyan-400" }
             ]
@@ -457,10 +408,7 @@
             container.appendChild(toast);
             lucide.createIcons();
 
-            setTimeout(() => {
-                toast.classList.remove('translate-y-2', 'opacity-0');
-            }, 10);
-
+            setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 10);
             setTimeout(() => {
                 toast.classList.add('translate-y-2', 'opacity-0');
                 setTimeout(() => toast.remove(), 300);
@@ -472,21 +420,171 @@
             const converted = amountInLSL * rate;
             const symbol = currencySymbols[appState.currency];
 
-            if (converted >= 1000000) {
-                return symbol + (converted / 1000000).toFixed(2) + 'M';
-            } else if (converted >= 1000) {
-                return symbol + (converted / 1000).toFixed(1) + 'k';
-            } else {
-                return symbol + converted.toLocaleString('en-US', { maximumFractionDigits: 0 });
+            if (converted >= 1000000) return symbol + (converted / 1000000).toFixed(2) + 'M';
+            if (converted >= 1000) return symbol + (converted / 1000).toFixed(1) + 'k';
+            return symbol + converted.toLocaleString('en-US', { maximumFractionDigits: 0 });
+        }
+
+        // ============================================================================
+        // SUPABASE ASYNCHRONOUS DATABASE FUNCTIONS
+        // ============================================================================
+
+        async function fetchSupabaseVentures() {
+            if (!supabaseClient) return;
+            try {
+                const { data, error } = await supabaseClient.from('ventures').select('*');
+                if (error) throw error;
+                if (data && data.length > 0) {
+                    data.forEach(dbV => {
+                        const localV = appState.ventures.find(v => v.id === dbV.slug);
+                        if (localV) {
+                            localV.db_id = dbV.id;
+                            localV.users = dbV.active_users || localV.users;
+                            localV.tokenCost = dbV.token_burn_rate || localV.tokenCost;
+                            localV.status = dbV.is_active ? 'Active' : 'Paused';
+                        }
+                    });
+                    setConnectionStatus(true, "Synchronized with Supabase");
+                    saveState();
+                }
+            } catch (err) {
+                console.warn("Supabase Ventures Fetch Warning:", err.message);
+                setConnectionStatus(false, "Using Local Cache (Offline/Unconfigured)");
             }
         }
 
-        // Calculations
-        function calculateMetrics() {
-            let totalMRR = 0;
-            let totalTokenBurn = 0;
-            let totalUsers = 0;
+        async function fetchSupabaseHITLQueue() {
+            if (!supabaseClient) return;
+            try {
+                const { data, error } = await supabaseClient
+                    .from('hitl_queue')
+                    .select('id, title, description, status, risk_level, ventures(slug)')
+                    .eq('status', 'pending');
+                
+                if (error) throw error;
+                if (data && data.length > 0) {
+                    appState.hitlQueue = data.map(i => ({
+                        id: i.id,
+                        venture: i.ventures ? i.ventures.slug : 'Nexus',
+                        title: i.title,
+                        desc: i.description,
+                        status: i.status
+                    }));
+                    renderHitlQueue();
+                    saveState();
+                }
+            } catch (err) {
+                console.warn("Supabase HITL Fetch Warning:", err.message);
+            }
+        }
 
+        async function fetchSupabaseGrowthLogs() {
+            if (!supabaseClient) return;
+            try {
+                const { data, error } = await supabaseClient
+                    .from('growth_agent_terminal')
+                    .select('created_at, action_taken, channel')
+                    .order('created_at', { ascending: false })
+                    .limit(10);
+
+                if (error) throw error;
+                if (data && data.length > 0) {
+                    data.reverse().forEach(log => {
+                        const timeStr = new Date(log.created_at).toTimeString().split(' ')[0];
+                        const logText = `[${log.channel.toUpperCase()}] ${log.action_taken}`;
+                        if (!appState.logs.some(l => l.text === logText)) {
+                            appState.logs.push({ time: timeStr, text: logText, color: 'text-emerald-400' });
+                        }
+                    });
+                    renderGrowthLogs();
+                    saveState();
+                }
+            } catch (err) {
+                console.warn("Supabase Growth Logs Fetch Warning:", err.message);
+            }
+        }
+
+        async function syncVentureUpdateToSupabase(venture) {
+            if (!supabaseClient || !venture.db_id) return;
+            try {
+                const { error } = await supabaseClient
+                    .from('ventures')
+                    .update({
+                        active_users: venture.users,
+                        token_burn_rate: venture.tokenCost,
+                        is_active: venture.status !== 'Paused'
+                    })
+                    .eq('id', venture.db_id);
+
+                if (error) throw error;
+            } catch (err) {
+                console.error("Failed to sync venture update to Supabase:", err.message);
+            }
+        }
+
+        async function syncHITLToSupabase(id, decision) {
+            if (!supabaseClient) return;
+            try {
+                const { error } = await supabaseClient
+                    .from('hitl_queue')
+                    .update({ status: decision, reviewed_at: new Date() })
+                    .eq('id', id);
+
+                if (error) throw error;
+            } catch (err) {
+                console.error("Failed to sync HITL update to Supabase:", err.message);
+            }
+        }
+
+        function initSupabaseRealtime() {
+            if (!supabaseClient) return;
+
+            supabaseClient
+                .channel('nexus-live-channel')
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'hitl_queue' }, payload => {
+                    showToast('New executive review item synced live.', 'info');
+                    fetchSupabaseHITLQueue();
+                })
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'ventures' }, payload => {
+                    fetchSupabaseVentures();
+                    updateKPIs();
+                    renderVenturesGrid();
+                })
+                .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'growth_agent_terminal' }, payload => {
+                    const newLog = payload.new;
+                    const timeStr = new Date(newLog.created_at).toTimeString().split(' ')[0];
+                    addGrowthLog(`[${newLog.channel.toUpperCase()}] ${newLog.action_taken}`, 'text-emerald-400');
+                })
+                .subscribe((status) => {
+                    if (status === 'SUBSCRIBED') {
+                        setConnectionStatus(true, "Realtime Subscriptions Active");
+                    }
+                });
+        }
+
+        function setConnectionStatus(isConnected, text) {
+            const statusText = document.getElementById('liveStatusText');
+            const statusPulse = document.getElementById('statusPulse');
+            const statusDot = document.getElementById('statusDot');
+
+            statusText.innerText = text;
+            if (isConnected) {
+                statusText.className = "text-emerald-400 font-medium";
+                statusPulse.className = "animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75";
+                statusDot.className = "relative inline-flex rounded-full h-2 w-2 bg-emerald-500";
+            } else {
+                statusText.className = "text-amber-400 font-medium";
+                statusPulse.className = "hidden";
+                statusDot.className = "relative inline-flex rounded-full h-2 w-2 bg-amber-500";
+            }
+        }
+
+        // ============================================================================
+        // CALCULATIONS & UI RENDERING
+        // ============================================================================
+
+        function calculateMetrics() {
+            let totalMRR = 0, totalTokenBurn = 0, totalUsers = 0;
             appState.ventures.forEach(v => {
                 if (v.status !== 'Paused') {
                     totalMRR += (v.users * v.mrrPerUser);
@@ -494,18 +592,14 @@
                     totalUsers += Number(v.users);
                 }
             });
-
             const combinedAnnualRev = totalMRR * 12;
-            const treasuryReserve = combinedAnnualRev * 0.05; // 5% buffer
-            const taxReserve = combinedAnnualRev * 0.11;     // RSL estimate
-
             return {
                 mrr: totalMRR,
                 annualRev: combinedAnnualRev,
                 tokenBurn: totalTokenBurn,
                 users: totalUsers,
-                treasury: treasuryReserve,
-                tax: taxReserve
+                treasury: combinedAnnualRev * 0.05,
+                tax: combinedAnnualRev * 0.11
             };
         }
 
@@ -518,7 +612,6 @@
             document.getElementById('kpiTaxReserve').innerText = formatMoney(m.tax);
         }
 
-        // Render Ventures Grid
         function renderVenturesGrid() {
             const grid = document.getElementById('venturesGrid');
             grid.innerHTML = '';
@@ -569,6 +662,7 @@
             appState.ventures[index].status = newStatus;
             saveState();
             updateKPIs();
+            syncVentureUpdateToSupabase(appState.ventures[index]);
             showToast(`${appState.ventures[index].name} status updated to ${newStatus}`, 'info');
         }
 
@@ -578,15 +672,17 @@
             saveState();
             updateKPIs();
             updateChartsData();
+            syncVentureUpdateToSupabase(appState.ventures[index]);
         }
 
         function handleTokenCostChange(index, val) {
             appState.ventures[index].tokenCost = Number(val);
             saveState();
             updateKPIs();
+            initTokenChart();
+            syncVentureUpdateToSupabase(appState.ventures[index]);
         }
 
-        // Render HITL Queue
         function renderHitlQueue() {
             const list = document.getElementById('hitlList');
             const badge = document.getElementById('hitlBadge');
@@ -597,49 +693,46 @@
 
             if (pendingItems.length === 0) {
                 list.innerHTML = `
-                    <div class="p-6 text-center text-slate-500 text-xs italic">
-                        All verification queues cleared. Zero pending approvals.
+                    <div class="flex flex-col items-center justify-center py-10 text-slate-500 text-center">
+                        <i data-lucide="check-circle" class="w-8 h-8 text-emerald-400 mb-2"></i>
+                        <p class="text-xs">All high-risk agent decisions verified and cleared.</p>
                     </div>
                 `;
+                lucide.createIcons();
                 return;
             }
 
-            appState.hitlQueue.forEach(item => {
-                if (item.status !== 'pending') return;
-
-                const div = document.createElement('div');
-                div.className = 'bg-slate-950/60 border border-slate-800/80 rounded-xl p-3.5 space-y-2';
-                div.innerHTML = `
-                    <div class="flex items-start justify-between">
-                        <div>
-                            <span class="inline-block px-2 py-0.5 text-[10px] bg-cyan-900/50 text-cyan-300 border border-cyan-700/50 rounded mb-1">${item.venture}</span>
-                            <h4 class="text-sm font-semibold text-slate-200">${item.title}</h4>
-                            <p class="text-xs text-slate-400 mt-0.5">${item.desc}</p>
-                        </div>
+            pendingItems.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'bg-slate-950 border border-slate-800/80 rounded-xl p-3.5 space-y-2';
+                card.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950 text-cyan-400 border border-cyan-800/60">${item.venture}</span>
+                        <span class="text-[10px] text-amber-400 font-medium">Requires Approval</span>
                     </div>
-                    <div class="flex items-center justify-end space-x-2 pt-1">
-                        <button onclick="resolveHitl(${item.id}, 'rejected')" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded-lg border border-slate-700 transition">
-                            Reject
-                        </button>
-                        <button onclick="resolveHitl(${item.id}, 'approved')" class="px-3 py-1 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs rounded-lg transition flex items-center space-x-1">
-                            <i data-lucide="check" class="w-3.5 h-3.5"></i>
-                            <span>Approve</span>
-                        </button>
+                    <div>
+                        <h4 class="text-xs font-bold text-white">${item.title}</h4>
+                        <p class="text-[11px] text-slate-400 mt-0.5">${item.desc}</p>
+                    </div>
+                    <div class="flex justify-end space-x-2 pt-2 border-t border-slate-900">
+                        <button onclick="reviewHitl(${item.id}, 'rejected')" class="px-2.5 py-1 bg-slate-800 hover:bg-rose-950 text-rose-300 rounded text-[11px] font-medium transition">Reject</button>
+                        <button onclick="reviewHitl(${item.id}, 'approved')" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-slate-950 rounded text-[11px] font-bold transition">Authorize & Sign</button>
                     </div>
                 `;
-                list.appendChild(div);
+                list.appendChild(card);
             });
             lucide.createIcons();
         }
 
-        function resolveHitl(id, decision) {
+        function reviewHitl(id, decision) {
             const item = appState.hitlQueue.find(i => i.id === id);
             if (item) {
                 item.status = decision;
                 saveState();
                 renderHitlQueue();
-                showToast(`Item #${id} ${decision} successfully.`, decision === 'approved' ? 'success' : 'info');
-                addLogEntry(`[HITL] Executive verified ${item.venture}: ${item.title} -> ${decision.toUpperCase()}`, decision === 'approved' ? 'text-emerald-400' : 'text-rose-400');
+                syncHITLToSupabase(id, decision);
+                showToast(`HITL Item #${id} was ${decision}`, decision === 'approved' ? 'success' : 'info');
+                addGrowthLog(`[HITL] Item '${item.title}' was ${decision} by Executive`, decision === 'approved' ? 'text-emerald-400' : 'text-rose-400');
             }
         }
 
@@ -647,50 +740,59 @@
             appState.hitlQueue.forEach(i => i.status = 'pending');
             saveState();
             renderHitlQueue();
-            showToast('HITL queue items restored.', 'info');
+            showToast("HITL Approval Queue restored.", "info");
         }
 
-        // GrowthAgent Log & Terminal
-        function addLogEntry(text, colorClass = 'text-cyan-400') {
-            const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-            appState.logs.unshift({ time: timeStr, text: text, color: colorClass });
-            if (appState.logs.length > 30) appState.logs.pop();
-            saveState();
-            renderLogs();
-        }
-
-        function renderLogs() {
+        function renderGrowthLogs() {
             const container = document.getElementById('growthLog');
             container.innerHTML = '';
+
             appState.logs.forEach(log => {
                 const div = document.createElement('div');
-                div.className = 'flex items-start space-x-2 text-[11px] leading-tight';
+                div.className = `flex space-x-2 ${log.color || 'text-slate-300'}`;
                 div.innerHTML = `
-                    <span class="text-slate-500 shrink-0 font-mono">${log.time}</span>
-                    <span class="${log.color}">${log.text}</span>
+                    <span class="text-slate-500 shrink-0">[${log.time}]</span>
+                    <span>${log.text}</span>
                 `;
                 container.appendChild(div);
             });
-            container.scrollTop = 0;
+            container.scrollTop = container.scrollHeight;
         }
 
-        function triggerGrowthAgentScan() {
+        function addGrowthLog(text, color = 'text-cyan-400') {
+            const now = new Date();
+            const timeStr = now.toTimeString().split(' ')[0];
+            appState.logs.push({ time: timeStr, text, color });
+            if (appState.logs.length > 30) appState.logs.shift();
+            saveState();
+            renderGrowthLogs();
+        }
+
+        async function triggerGrowthAgentScan() {
             const actions = [
-                { text: "[GrowthAgent] Deployed A/B test variant B for OptiStock reorder flow (+14% conversion)", color: "text-purple-400" },
-                { text: "[GrowthAgent] Programmatic SEO generated 12 localized grant templates for GrantFlow", color: "text-emerald-400" },
-                { text: "[GrowthAgent] Signal outbound campaign dispatched to 35 regional enterprise leads", color: "text-cyan-400" },
-                { text: "[GrowthAgent] SkillBoost module 'AI Agent Architect' published with 140 signups", color: "text-amber-400" }
+                { channel: 'programmatic_seo', action: "Published 15 long-tail SEO pages across GrantFlow and ContractShield." },
+                { channel: 'outbound_linkedin', action: "Dispatched 28 personalized signal messages to freelance engineers." },
+                { channel: 'funnel_ab', action: "A/B test concluded for OptiStock landing page (+14% conversion)." }
             ];
-            const randomAction = actions[Math.floor(Math.random() * actions.length)];
-            addLogEntry(randomAction.text, randomAction.color);
-            showToast('GrowthAgent campaign executed successfully.');
+            const randomItem = actions[Math.floor(Math.random() * actions.length)];
+            
+            addGrowthLog(`[${randomItem.channel.toUpperCase()}] ${randomItem.action}`, "text-emerald-400");
+            showToast("GrowthAgent campaign executed successfully.", "success");
+
+            if (supabaseClient) {
+                try {
+                    await supabaseClient.from('growth_agent_terminal').insert([{
+                        channel: randomItem.channel,
+                        action_taken: randomItem.action
+                    }]);
+                } catch (err) {
+                    console.error("Failed to log GrowthAgent campaign to Supabase:", err);
+                }
+            }
         }
 
-        // Terminal CLI handling
-        function handleTerminalKey(e) {
-            if (e.key === 'Enter') {
-                executeTerminalCommand();
-            }
+        function handleTerminalKey(event) {
+            if (event.key === 'Enter') executeTerminalCommand();
         }
 
         function executeTerminalCommand() {
@@ -698,342 +800,207 @@
             const cmd = input.value.trim().toLowerCase();
             if (!cmd) return;
 
-            addLogEntry(`> ${cmd}`, 'text-slate-300');
+            addGrowthLog(`> ${cmd}`, 'text-white');
+            input.value = '';
 
-            if (cmd === 'help') {
-                addLogEntry("[Terminal] Available commands: status, audit contracts, reallocate, deploy agent, clear", 'text-cyan-400');
-            } else if (cmd === 'status') {
-                const m = calculateMetrics();
-                addLogEntry(`[Terminal] System Nominal. MRR: LSL ${m.mrr.toLocaleString()}, Active Users: ${m.users}`, 'text-emerald-400');
-            } else if (cmd.includes('audit')) {
-                addLogEntry("[Terminal] ContractShield RAG pipeline active. 0 critical liabilities detected.", 'text-cyan-400');
-            } else if (cmd.includes('reallocate')) {
-                addLogEntry("[Terminal] Token compute reallocated dynamically across active child ventures.", 'text-amber-400');
-            } else if (cmd.includes('deploy')) {
-                addLogEntry("[Terminal] New child agent container spawned successfully on cluster node US-East.", 'text-emerald-400');
+            if (cmd === 'status') {
+                addGrowthLog("[System] All 5 child ventures active. Multi-agent cluster operating at 99.8% efficiency.", "text-cyan-400");
+            } else if (cmd === 'audit contracts') {
+                addGrowthLog("[ContractShield] Initiated batch scan on 42 pending agreements. 3 high-risk flags identified.", "text-amber-300");
+            } else if (cmd === 'reallocate') {
+                addGrowthLog("[Treasury] Reallocation executed: +15% token compute routed to SkillBoost based on ROI.", "text-emerald-400");
+            } else if (cmd === 'deploy agent') {
+                addGrowthLog("[Nexus Core] Initializing new agent worker instance... Sandbox compiled successfully.", "text-cyan-400");
             } else if (cmd === 'clear') {
                 appState.logs = [];
                 saveState();
-                renderLogs();
+                renderGrowthLogs();
+            } else if (cmd === 'help') {
+                addGrowthLog("Available commands: status, audit contracts, reallocate, deploy agent, clear, help", "text-slate-300");
             } else {
-                addLogEntry(`[Terminal] Unknown command '${cmd}'. Type 'help' for instructions.`, 'text-rose-400');
-            }
-
-            input.value = '';
-        }
-
-        // Charts & Scenarios
-        function getScenarioData() {
-            const m = calculateMetrics();
-            const baseRev = m.annualRev || 1693800;
-
-            if (appState.scenario === 'best') {
-                return {
-                    labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
-                    revenue: [baseRev * 1.5, baseRev * 4.2, baseRev * 12.5, baseRev * 32.0, baseRev * 75.0],
-                    expenses: [450000, 1200000, 3500000, 8500000, 18000000],
-                    netProfit: [baseRev * 1.5 - 450000, baseRev * 4.2 - 1200000, baseRev * 12.5 - 3500000, baseRev * 32.0 - 8500000, baseRev * 75.0 - 18000000]
-                };
-            } else if (appState.scenario === 'worst') {
-                return {
-                    labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
-                    revenue: [baseRev * 0.4, baseRev * 0.9, baseRev * 1.8, baseRev * 3.5, baseRev * 6.0],
-                    expenses: [300000, 600000, 1200000, 2400000, 4500000],
-                    netProfit: [baseRev * 0.4 - 300000, baseRev * 0.9 - 600000, baseRev * 1.8 - 1200000, baseRev * 3.5 - 2400000, baseRev * 6.0 - 4500000]
-                };
-            } else {
-                // Expected
-                return {
-                    labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
-                    revenue: [baseRev, baseRev * 3.2, baseRev * 9.8, baseRev * 24.5, baseRev * 52.0],
-                    expenses: [459000, 1566000, 4410000, 10080000, 20160000],
-                    netProfit: [baseRev - 459000, baseRev * 3.2 - 1566000, baseRev * 9.8 - 4410000, baseRev * 24.5 - 10080000, baseRev * 52.0 - 20160000]
-                };
+                addGrowthLog(`Unknown command '${cmd}'. Type 'help' for available commands.`, "text-rose-400");
             }
         }
+
+        // ============================================================================
+        // CHARTS & MODALS
+        // ============================================================================
 
         function initFinancialChart() {
             const ctx = document.getElementById('financialChart').getContext('2d');
-            const data = getScenarioData();
-            const rate = currencyRates[appState.currency];
-            const symbol = currencySymbols[appState.currency];
+            const datasetsMap = {
+                expected: { rev: [1.69, 7.22, 22.64, 56.57, 120.58], profit: [1.23, 5.65, 18.23, 46.49, 100.42] },
+                best: { rev: [3.20, 15.00, 48.00, 125.00, 260.00], profit: [2.45, 12.20, 39.80, 105.50, 222.00] },
+                worst: { rev: [0.45, 1.80, 4.50, 9.80, 18.00], profit: [0.27, 1.26, 3.25, 7.20, 13.50] }
+            };
+
+            const currentData = datasetsMap[appState.scenario];
+            if (financialChartInstance) financialChartInstance.destroy();
 
             financialChartInstance = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: data.labels,
+                    labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
                     datasets: [
-                        {
-                            label: 'Net Profit (EBITDA)',
-                            data: data.netProfit.map(v => v * rate),
-                            type: 'line',
-                            borderColor: '#34d399',
-                            backgroundColor: '#34d399',
-                            borderWidth: 3,
-                            tension: 0.3,
-                            pointRadius: 4,
-                            order: 1
-                        },
-                        {
-                            label: 'Gross Revenue',
-                            data: data.revenue.map(v => v * rate),
-                            backgroundColor: 'rgba(34, 211, 238, 0.7)',
-                            borderRadius: 6,
-                            order: 2
-                        },
-                        {
-                            label: 'Operating Expenses',
-                            data: data.expenses.map(v => v * rate),
-                            backgroundColor: 'rgba(244, 63, 94, 0.5)',
-                            borderRadius: 6,
-                            order: 3
-                        }
+                        { label: 'Gross Revenue (M LSL)', data: currentData.rev, backgroundColor: 'rgba(34, 211, 238, 0.7)', borderColor: '#22d3ee', borderWidth: 1, borderRadius: 6 },
+                        { label: 'Operating Profit (M LSL)', data: currentData.profit, backgroundColor: 'rgba(52, 211, 153, 0.7)', borderColor: '#34d399', borderWidth: 1, borderRadius: 6 }
                     ]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        legend: { labels: { color: '#94a3b8', font: { size: 11 } } },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.dataset.label || '';
-                                    if (label) label += ': ';
-                                    if (context.parsed.y !== null) {
-                                        label += symbol + (context.parsed.y).toLocaleString('en-US', { maximumFractionDigits: 0 });
-                                    }
-                                    return label;
-                                }
-                            }
-                        }
-                    },
+                    plugins: { legend: { labels: { color: '#94a3b8', font: { size: 11 } } } },
                     scales: {
-                        x: { ticks: { color: '#64748b', font: { size: 11 } }, grid: { color: 'rgba(30, 41, 59, 0.5)' } },
-                        y: {
-                            ticks: {
-                                color: '#64748b',
-                                font: { size: 10 },
-                                callback: function(value) {
-                                    if (value >= 1000000) return symbol + (value / 1000000).toFixed(1) + 'M';
-                                    if (value >= 1000) return symbol + (value / 1000).toFixed(0) + 'k';
-                                    return symbol + value;
-                                }
-                            },
-                            grid: { color: 'rgba(30, 41, 59, 0.5)' }
-                        }
+                        x: { grid: { color: 'rgba(30, 41, 59, 0.5)' }, ticks: { color: '#94a3b8' } },
+                        y: { grid: { color: 'rgba(30, 41, 59, 0.5)' }, ticks: { color: '#94a3b8' } }
                     }
                 }
             });
         }
 
-        function updateChartsData() {
+        function updateChartsScenario() {
             appState.scenario = document.getElementById('scenarioSelect').value;
             saveState();
-            const data = getScenarioData();
-            const rate = currencyRates[appState.currency];
-
-            if (financialChartInstance) {
-                financialChartInstance.data.datasets[0].data = data.netProfit.map(v => v * rate);
-                financialChartInstance.data.datasets[1].data = data.revenue.map(v => v * rate);
-                financialChartInstance.data.datasets[2].data = data.expenses.map(v => v * rate);
-                financialChartInstance.update();
-            }
+            initFinancialChart();
+            showToast(`Trajectory scenario updated to ${appState.scenario}`, 'info');
         }
 
-        function updateChartsScenario() {
-            updateChartsData();
-        }
+        function updateChartsData() { initFinancialChart(); }
 
         function initTokenChart() {
             const ctx = document.getElementById('tokenAllocationChart').getContext('2d');
-            const burnData = appState.ventures.map(v => v.tokenCost);
             const labels = appState.ventures.map(v => v.name);
-            const colors = ['#22d3ee', '#34d399', '#c084fc', '#fbbf24', '#fb7185'];
+            const data = appState.ventures.map(v => v.tokenCost);
+            const backgroundColors = ['#22d3ee', '#34d399', '#a78bfa', '#fbbf24', '#f43f5e'];
+
+            if (tokenChartInstance) tokenChartInstance.destroy();
 
             tokenChartInstance = new Chart(ctx, {
                 type: 'doughnut',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        data: burnData,
-                        backgroundColor: colors,
-                        borderWidth: 2,
-                        borderColor: '#0f172a'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '70%',
-                    plugins: { legend: { display: false } }
-                }
+                data: { labels: labels, datasets: [{ data: data, backgroundColor: backgroundColors, borderWidth: 0 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
             });
 
-            // Render legend
             const legendContainer = document.getElementById('tokenLegend');
             legendContainer.innerHTML = '';
-            appState.ventures.forEach((v, idx) => {
+            appState.ventures.forEach((v, i) => {
                 const div = document.createElement('div');
-                div.className = 'flex items-center space-x-1.5';
+                div.className = 'flex items-center space-x-2';
                 div.innerHTML = `
-                    <span class="w-2.5 h-2.5 rounded-full" style="background-color: ${colors[idx]}"></span>
-                    <span class="truncate">${v.name}</span>
+                    <span class="w-2.5 h-2.5 rounded-full" style="background-color: ${backgroundColors[i]}"></span>
+                    <span class="truncate">${v.name}: LSL ${v.tokenCost.toLocaleString()}</span>
                 `;
                 legendContainer.appendChild(div);
             });
         }
 
-        // Currency Switcher
         function updateCurrencyDisplay() {
             appState.currency = document.getElementById('currencySelect').value;
             saveState();
             updateKPIs();
-            updateChartsData();
             renderVenturesGrid();
+            showToast(`Currency converted to ${appState.currency}`, 'info');
         }
 
-        // Salary Modal & Planner Logic
         function openSalaryModal() {
-            document.getElementById('sliderBaseY1').value = appState.salaryY1Base;
-            document.getElementById('sliderDivSplit').value = appState.dividendSplit;
-            updateSalaryPlanner();
             document.getElementById('salaryModal').classList.remove('hidden');
+            document.getElementById('sliderBaseY1').value = appState.salaryY1Base;
+            document.getElementById('valBaseY1').innerText = `LSL ${(appState.salaryY1Base/1000).toFixed(0)}k`;
+            document.getElementById('sliderDivSplit').value = appState.dividendSplit;
+            document.getElementById('valDivSplit').innerText = `${appState.dividendSplit}%`;
+            renderSalaryTable();
         }
 
-        function closeSalaryModal() {
-            document.getElementById('salaryModal').classList.add('hidden');
-        }
+        function closeSalaryModal() { document.getElementById('salaryModal').classList.add('hidden'); }
 
         function updateSalaryPlanner() {
-            const baseY1 = Number(document.getElementById('sliderBaseY1').value);
-            const divSplit = Number(document.getElementById('sliderDivSplit').value);
+            appState.salaryY1Base = Number(document.getElementById('sliderBaseY1').value);
+            document.getElementById('valBaseY1').innerText = `LSL ${(appState.salaryY1Base/1000).toFixed(0)}k`;
+            appState.dividendSplit = Number(document.getElementById('sliderDivSplit').value);
+            document.getElementById('valDivSplit').innerText = `${appState.dividendSplit}%`;
+            renderSalaryTable();
+        }
 
-            document.getElementById('valBaseY1').innerText = `LSL ${(baseY1/1000).toFixed(0)}k`;
-            document.getElementById('valDivSplit').innerText = `${divSplit}%`;
-
+        function renderSalaryTable() {
             const tbody = document.getElementById('salaryTableBody');
             tbody.innerHTML = '';
+            const baseY1 = appState.salaryY1Base;
+            const split = appState.dividendSplit / 100;
 
-            const years = [
-                { yr: 'Year 1', multiplier: 1.0, divPoolMultiplier: 0.45 },
-                { yr: 'Year 2', multiplier: 2.0, divPoolMultiplier: 3.0 },
-                { yr: 'Year 3', multiplier: 4.0, divPoolMultiplier: 10.5 },
-                { yr: 'Year 4', multiplier: 7.5, divPoolMultiplier: 28.0 },
-                { yr: 'Year 5', multiplier: 12.5, divPoolMultiplier: 62.0 }
+            const yearsData = [
+                { year: 'Year 1', mdBase: baseY1 * 12, opsBase: baseY1 * 12, rawPool: 455664 },
+                { year: 'Year 2', mdBase: baseY1 * 24, opsBase: baseY1 * 24, rawPool: 3079032 },
+                { year: 'Year 3', mdBase: baseY1 * 40, opsBase: baseY1 * 40, rawPool: 10860672 },
+                { year: 'Year 4', mdBase: baseY1 * 75, opsBase: baseY1 * 75, rawPool: 28733472 },
+                { year: 'Year 5', mdBase: baseY1 * 125, opsBase: baseY1 * 125, rawPool: 63486960 }
             ];
 
-            years.forEach(y => {
-                const founderBaseAnnual = baseY1 * 12 * y.multiplier;
-                const combinedPayroll = founderBaseAnnual * 2;
-                const customDivPool = (1693800 * y.divPoolMultiplier) * (divSplit / 50);
-
+            yearsData.forEach(row => {
+                const combinedBase = row.mdBase + row.opsBase;
+                const customDividendPool = row.rawPool * split;
                 const tr = document.createElement('tr');
-                tr.className = 'hover:bg-slate-800/40';
                 tr.innerHTML = `
-                    <td class="py-2.5 px-3 font-semibold text-cyan-400">${y.yr}</td>
-                    <td class="py-2.5 px-3">LSL ${founderBaseAnnual.toLocaleString()}</td>
-                    <td class="py-2.5 px-3">LSL ${founderBaseAnnual.toLocaleString()}</td>
-                    <td class="py-2.5 px-3 font-medium">LSL ${combinedPayroll.toLocaleString()}</td>
-                    <td class="py-2.5 px-3 text-right text-emerald-400 font-semibold">LSL ${Math.round(customDivPool).toLocaleString()}</td>
+                    <td class="py-2.5 px-3 font-bold text-white">${row.year}</td>
+                    <td class="py-2.5 px-3 font-mono">LSL ${row.mdBase.toLocaleString()}</td>
+                    <td class="py-2.5 px-3 font-mono">LSL ${row.opsBase.toLocaleString()}</td>
+                    <td class="py-2.5 px-3 font-mono text-cyan-400">LSL ${combinedBase.toLocaleString()}</td>
+                    <td class="py-2.5 px-3 font-mono text-right text-emerald-400 font-bold">LSL ${Math.round(customDividendPool).toLocaleString()}</td>
                 `;
                 tbody.appendChild(tr);
             });
         }
 
         function saveSalaryPreferences() {
-            appState.salaryY1Base = Number(document.getElementById('sliderBaseY1').value);
-            appState.dividendSplit = Number(document.getElementById('sliderDivSplit').value);
             saveState();
-            showToast('Executive salary and dividend preferences saved.');
             closeSalaryModal();
+            showToast("Executive compensation preferences saved successfully.", "success");
         }
-async function initAll() {
-    document.getElementById('currencySelect').value = appState.currency;
-    document.getElementById('scenarioSelect').value = appState.scenario;
-    
-    // Fetch live data from Supabase if credentials are provided
-    await fetchSupabaseVentures();
-    initSupabaseRealtime();
 
-    updateKPIs();
-    renderVenturesGrid();
-    renderHitlQueue();
-    renderGrowthLogs();
-    initFinancialChart();
-    initTokenChart();
-    lucide.createIcons();
-}
-        // ==========================================
-// SUPABASE CLIENT INITIALIZATION
-// ==========================================
-const SUPABASE_URL = 'https://ljzfsqnyxsaigsjpnxuu.supabase.co'; // Replace with your URL
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqemZzcW55eHNhaWdzanBueHV1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE4NTI4NTMsImV4cCI6MjEwNzQyODg1M30.yGQB3h_axyIQTmix09njxVNklUOhO1qShO0NGYu6RTs'; // Replace with your Anon Key
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        function exportStateJson() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", "nexus_holdings_state.json");
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+            showToast("State JSON exported successfully.", "success");
+        }
 
-// Function to fetch live ventures from Postgres on startup
-async function fetchSupabaseVentures() {
-    try {
-        const { data, error } = await supabaseClient.from('ventures').select('*');
-        if (error) throw error;
-        if (data && data.length > 0) {
-            // Map Supabase venture rows to your dashboard state format
-            appState.ventures = data.map(v => ({
-                id: v.slug,
-                name: v.name,
-                desc: v.description,
-                status: v.is_active ? 'Active' : 'Paused',
-                users: v.active_users,
-                mrrPerUser: 300, // Default baseline or fetch from db
-                tokenCost: v.token_burn_rate || 5000,
-                color: 'cyan'
-            }));
+        function resetDashboardState() {
+            if (confirm("Are you sure you want to reset all data back to factory defaults?")) {
+                localStorage.removeItem('nexus_state_v2');
+                appState = JSON.parse(JSON.stringify(defaultState));
+                initAll();
+                showToast("Dashboard reset to default state.", "info");
+            }
+        }
+
+        // Initialize All App Data
+        async function initAll() {
+            document.getElementById('currencySelect').value = appState.currency;
+            document.getElementById('scenarioSelect').value = appState.scenario;
+
+            // Supabase Asynchronous Data Sync
+            if (supabaseClient) {
+                await fetchSupabaseVentures();
+                await fetchSupabaseHITLQueue();
+                await fetchSupabaseGrowthLogs();
+                initSupabaseRealtime();
+            } else {
+                setConnectionStatus(false, "Offline Local Storage Mode");
+            }
+
             updateKPIs();
             renderVenturesGrid();
-            initTokenChart();
-        }
-    } catch (err) {
-        console.warn('Using local fallback state (Supabase offline or unconfigured):', err.message);
-    }
-}
-
-// Function to sync HITL approvals back to Supabase
-async function syncHitlToSupabase(id, decision) {
-    try {
-        const { error } = await supabaseClient
-            .from('hitl_queue')
-            .update({ status: decision, reviewed_at: new Date() })
-            .eq('id', id);
-        if (error) throw error;
-    } catch (err) {
-        console.error('Failed to sync HITL update to Supabase:', err.message);
-    }
-}
-
-        function initSupabaseRealtime() {
-    supabaseClient
-        .channel('nexus-live-sync')
-        .on('postgres_changes', { event: '*', schema: 'public', table: 'hitl_queue' }, payload => {
-            console.log('Realtime HITL update received:', payload);
-            showToast('New executive review item synced from multi-agent network.', 'info');
-            // Refresh queue
             renderHitlQueue();
-        })
-        .on('postgres_changes', { event: '*', schema: 'public', table: 'ventures' }, payload => {
-            console.log('Realtime Venture update received:', payload);
-            fetchSupabaseVentures();
-        })
-        .subscribe();
-}
-// Test Fetching Live Ventures from Postgres
-async function testFetchVentures() {
-    const { data, error } = await supabaseClient.from('ventures').select('*');
-    if (error) {
-        console.error('Supabase Connection Error:', error);
-    } else {
-        console.log('Successfully fetched ventures from Postgres:', data);
-    }
-}
-testFetchVentures();    </script>
+            renderGrowthLogs();
+            initFinancialChart();
+            initTokenChart();
+            lucide.createIcons();
+        }
+
+        window.addEventListener('DOMContentLoaded', initAll);
+    </script>
 </body>
 </html>

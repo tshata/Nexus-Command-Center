@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ContractShield - AI Legal Risk Auditor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col items-center justify-center p-4">
+
+    <div class="max-w-xl w-full bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-6">
+        <div class="flex items-center space-x-3 border-b border-slate-800 pb-4">
+            <div class="p-3 bg-cyan-500/10 border border-cyan-500/30 rounded-xl">
+                <i data-lucide="shield-alert" class="w-6 h-6 text-cyan-400"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-lg text-white">ContractShield</h1>
+                <p class="text-xs text-slate-400">AI Legal Protection for Freelancers & Micro-Businesses</p>
+            </div>
+        </div>
+
+        <!-- Upload Box -->
+        <div id="uploadBox" class="border-2 border-dashed border-slate-700 hover:border-cyan-500 rounded-xl p-8 text-center cursor-pointer transition flex flex-col items-center justify-center space-y-3 bg-slate-950/50">
+            <i data-lucide="upload-cloud" class="w-10 h-10 text-cyan-400"></i>
+            <div>
+                <p class="text-xs font-semibold text-slate-200">Drop your contract here, or <span class="text-cyan-400 underline">browse files</span></p>
+                <p class="text-[10px] text-slate-500 mt-1">Supports PDF, DOCX, TXT (Up to 15MB)</p>
+            </div>
+            <input type="file" id="contractFile" class="hidden" onchange="handleFileSelect(event)">
+        </div>
+
+        <div id="loadingIndicator" class="hidden text-center py-6 space-y-3">
+            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-400 mx-auto"></div>
+            <p class="text-xs text-slate-400 font-mono">Analyzing clauses, liability caps, and indemnity risks...</p>
+        </div>
+
+        <!-- Results Box -->
+        <div id="resultsContainer" class="hidden space-y-4">
+            <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-slate-300">Risk Assessment Report</span>
+                    <span id="riskBadge" class="text-xs px-2.5 py-0.5 rounded-full font-bold"></span>
+                </div>
+                <p id="resultSummary" class="text-xs text-slate-300"></p>
+            </div>
+
+            <div class="bg-amber-950/30 border border-amber-800/50 rounded-xl p-4 space-y-2">
+                <h3 class="text-xs font-bold text-amber-300 flex items-center space-x-1.5">
+                    <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                    <span>Flagged Clauses (Paywall Protected)</span>
+                </h3>
+                <ul id="flaggedList" class="text-xs text-slate-400 list-disc list-inside space-y-1"></ul>
+            </div>
+
+            <!-- Stripe Paywall Button -->
+            <button onclick="triggerStripeCheckout()" class="w-full py-3 bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-slate-950 font-bold text-xs rounded-xl shadow-lg transition flex items-center justify-center space-x-2">
+                <i data-lucide="lock" class="w-4 h-4"></i>
+                <span>Unlock Full Redline Report & Amendments (LSL 288)</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        const uploadBox = document.getElementById('uploadBox');
+        const fileInput = document.getElementById('contractFile');
+
+        uploadBox.addEventListener('click', () => fileInput.click());
+
+        async function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            document.getElementById('uploadBox').classList.add('hidden');
+            document.getElementById('loadingIndicator').classList.remove('hidden');
+
+            const formData = new FormData();
+            formData.append("file", file);
+
+            try {
+                // Point to your FastAPI backend endpoint
+                const res = await fetch('http://localhost:8000/api/audit-contract', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+                renderResults(data);
+            } catch (err) {
+                // Fallback demo data if backend isn't running yet
+                renderResults({
+                    risk_score: 8,
+                    risk_level: "Critical",
+                    summary: "High exposure to unlimited liability and non-standard dispute resolution.",
+                    flagged_clauses: ["Indemnity clause lacks liability cap.", "Unilateral IP assignment prior to payment."],
+                    recommendations: ["Insert mutual liability cap.", "Tie IP transfer strictly to receipt of final payment."]
+                });
+            }
+        }
+
+        function renderResults(data) {
+            document.getElementById('loadingIndicator').classList.add('hidden');
+            document.getElementById('resultsContainer').classList.remove('hidden');
+
+            const badge = document.getElementById('riskBadge');
+            badge.innerText = `Risk Score: ${data.risk_score}/10 (${data.risk_level})`;
+            badge.className = `text-xs px-2.5 py-0.5 rounded-full font-bold ${
+                data.risk_score > 6 ? 'bg-rose-950 text-rose-300 border border-rose-800' : 'bg-emerald-950 text-emerald-300 border border-emerald-800'
+            }`;
+
+            document.getElementById('resultSummary').innerText = data.summary;
+
+            const list = document.getElementById('flaggedList');
+            list.innerHTML = '';
+            data.flagged_clauses.forEach(clause => {
+                const li = document.createElement('li');
+                li.innerText = clause;
+                list.appendChild(li);
+            });
+            lucide.createIcons();
+        }
+
+        function triggerStripeCheckout() {
+            alert("Redirecting to Stripe secure checkout for LSL 288 micro-payment...");
+        }
+    </script>
+</body>
+</html>

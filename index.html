@@ -951,7 +951,16 @@
 const SUPABASE_URL = 'https://ljzfsqnyxsaigsjpnxuu.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqemZzcW55eHNhaWdzanBueHV1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE4NTI4NTMsImV4cCI6MjEwNzQyODg1M30.yGQB3h_axyIQTmix09njxVNklUOhO1qShO0NGYu6RTs';
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
+// Test Fetching Live Ventures from Postgres
+async function testFetchVentures() {
+    const { data, error } = await supabaseClient.from('ventures').select('*');
+    if (error) {
+        console.error('Supabase Connection Error:', error);
+    } else {
+        console.log('Successfully fetched ventures from Postgres:', data);
+    }
+}
+testFetchVentures();
 // Real-time listener for the HITL Approval Queue
 supabase
   .channel('schema-db-changes')

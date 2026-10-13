@@ -55,14 +55,14 @@
                 <div>
                     <div class="flex items-center space-x-2">
                         <h1 class="font-bold text-sm sm:text-lg text-white tracking-wide">NEXUS HOLDINGS</h1>
-                        <span class="text-[10px] sm:text-xs px-2 py-0.5 rounded-full bg-cyan-900/50 text-cyan-400 border border-cyan-700/50">Command v2.4</span>
+                        <span class="text-[10px] sm:text-xs px-2 py-0.5 rounded-full bg-cyan-900/50 text-cyan-400 border border-cyan-700/50">Command v2.5</span>
                     </div>
                     <div class="flex items-center space-x-2 text-[11px] text-slate-400">
                         <span class="relative flex h-2 w-2">
                             <span id="statusPulse" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                             <span id="statusDot" class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                         </span>
-                        <span id="liveStatusText" class="text-emerald-400 font-medium">Connecting to Supabase...</span>
+                        <span id="liveStatusText" class="text-emerald-400 font-medium">System Synchronized & Autonomous</span>
                     </div>
                 </div>
             </div>
@@ -94,188 +94,462 @@
         </div>
     </header>
 
+    <!-- Sub-Dashboard Navigation Tabs Bar -->
+    <nav class="bg-slate-900/60 border-b border-slate-800/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center space-x-2 overflow-x-auto py-2 text-xs">
+            <button id="tab-overview" onclick="switchView('overview')" class="px-3.5 py-1.5 rounded-lg font-semibold flex items-center space-x-2 transition bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
+                <i data-lucide="layout-dashboard" class="w-3.5 h-3.5"></i>
+                <span>Holding Overview</span>
+            </button>
+            <div class="h-4 w-px bg-slate-800"></div>
+            <button id="tab-contractshield" onclick="switchView('contractshield')" class="px-3.5 py-1.5 rounded-lg font-medium flex items-center space-x-2 transition text-slate-400 hover:text-white hover:bg-slate-800/80">
+                <i data-lucide="file-check" class="w-3.5 h-3.5 text-cyan-400"></i>
+                <span>ContractShield</span>
+            </button>
+            <button id="tab-grantflow" onclick="switchView('grantflow')" class="px-3.5 py-1.5 rounded-lg font-medium flex items-center space-x-2 transition text-slate-400 hover:text-white hover:bg-slate-800/80">
+                <i data-lucide="award" class="w-3.5 h-3.5 text-emerald-400"></i>
+                <span>GrantFlow</span>
+            </button>
+            <button id="tab-optistock" onclick="switchView('optistock')" class="px-3.5 py-1.5 rounded-lg font-medium flex items-center space-x-2 transition text-slate-400 hover:text-white hover:bg-slate-800/80">
+                <i data-lucide="boxes" class="w-3.5 h-3.5 text-purple-400"></i>
+                <span>OptiStock</span>
+            </button>
+            <button id="tab-skillboost" onclick="switchView('skillboost')" class="px-3.5 py-1.5 rounded-lg font-medium flex items-center space-x-2 transition text-slate-400 hover:text-white hover:bg-slate-800/80">
+                <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-amber-400"></i>
+                <span>SkillBoost</span>
+            </button>
+            <button id="tab-climateguard" onclick="switchView('climateguard')" class="px-3.5 py-1.5 rounded-lg font-medium flex items-center space-x-2 transition text-slate-400 hover:text-white hover:bg-slate-800/80">
+                <i data-lucide="cloud-lightning" class="w-3.5 h-3.5 text-rose-400"></i>
+                <span>ClimateGuard</span>
+            </button>
+        </div>
+    </nav>
+
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
-        <!-- KPI Metrics Grid -->
-        <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 glow-cyan">
-                <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
-                    <span>Combined MRR</span>
-                    <i data-lucide="trending-up" class="w-4 h-4 text-emerald-400"></i>
+        <!-- VIEW 1: HOLDING OVERVIEW -->
+        <div id="view-overview" class="space-y-6">
+            <!-- KPI Metrics Grid -->
+            <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 glow-cyan">
+                    <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
+                        <span>Combined MRR</span>
+                        <i data-lucide="trending-up" class="w-4 h-4 text-emerald-400"></i>
+                    </div>
+                    <div id="kpiCombinedMRR" class="text-base sm:text-xl font-bold text-white">LSL 0</div>
+                    <div class="text-[10px] text-emerald-400 font-medium mt-1">Live Portfolio Run-Rate</div>
                 </div>
-                <div id="kpiCombinedMRR" class="text-base sm:text-xl font-bold text-white">LSL 0</div>
-                <div class="text-[10px] text-emerald-400 font-medium mt-1">Live Portfolio Run-Rate</div>
-            </div>
 
-            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
-                <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
-                    <span>Net EBITDA Margin</span>
-                    <i data-lucide="pie-chart" class="w-4 h-4 text-cyan-400"></i>
+                <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
+                    <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
+                        <span>Net EBITDA Margin</span>
+                        <i data-lucide="pie-chart" class="w-4 h-4 text-cyan-400"></i>
+                    </div>
+                    <div id="kpiNetMargin" class="text-base sm:text-xl font-bold text-emerald-400">72.8%</div>
+                    <div class="text-[10px] text-slate-400 mt-1">High automation efficiency</div>
                 </div>
-                <div id="kpiNetMargin" class="text-base sm:text-xl font-bold text-emerald-400">72.8%</div>
-                <div class="text-[10px] text-slate-400 mt-1">High automation efficiency</div>
-            </div>
 
-            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
-                <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
-                    <span>API Token Burn</span>
-                    <i data-lucide="cpu" class="w-4 h-4 text-amber-400"></i>
+                <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
+                    <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
+                        <span>API Token Burn</span>
+                        <i data-lucide="cpu" class="w-4 h-4 text-amber-400"></i>
+                    </div>
+                    <div id="kpiTokenBurn" class="text-base sm:text-xl font-bold text-amber-300">LSL 0</div>
+                    <div class="text-[10px] text-slate-400 mt-1">Monthly LLM Compute</div>
                 </div>
-                <div id="kpiTokenBurn" class="text-base sm:text-xl font-bold text-amber-300">LSL 0</div>
-                <div class="text-[10px] text-slate-400 mt-1">Monthly LLM Compute</div>
-            </div>
 
-            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
-                <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
-                    <span>Active Users</span>
-                    <i data-lucide="users" class="w-4 h-4 text-cyan-400"></i>
+                <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
+                    <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
+                        <span>Active Users</span>
+                        <i data-lucide="users" class="w-4 h-4 text-cyan-400"></i>
+                    </div>
+                    <div id="kpiActiveUsers" class="text-base sm:text-xl font-bold text-white">0</div>
+                    <div class="text-[10px] text-emerald-400 font-medium mt-1">Across 5 ventures</div>
                 </div>
-                <div id="kpiActiveUsers" class="text-base sm:text-xl font-bold text-white">0</div>
-                <div class="text-[10px] text-emerald-400 font-medium mt-1">Across 5 ventures</div>
-            </div>
 
-            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 glow-emerald">
-                <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
-                    <span>Treasury Reserve</span>
-                    <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+                <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 glow-emerald">
+                    <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
+                        <span>Treasury Reserve</span>
+                        <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+                    </div>
+                    <div id="kpiTreasury" class="text-base sm:text-xl font-bold text-cyan-300">LSL 0</div>
+                    <div class="text-[10px] text-slate-400 mt-1">20% Holding Buffer</div>
                 </div>
-                <div id="kpiTreasury" class="text-base sm:text-xl font-bold text-cyan-300">LSL 0</div>
-                <div class="text-[10px] text-slate-400 mt-1">20% Holding Buffer</div>
-            </div>
 
-            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
-                <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
-                    <span>RSL Tax Provision</span>
-                    <i data-lucide="landmark" class="w-4 h-4 text-rose-400"></i>
+                <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
+                    <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
+                        <span>RSL Tax Provision</span>
+                        <i data-lucide="landmark" class="w-4 h-4 text-rose-400"></i>
+                    </div>
+                    <div id="kpiTaxReserve" class="text-base sm:text-xl font-bold text-rose-300">LSL 0</div>
+                    <div class="text-[10px] text-slate-400 mt-1">Lesotho Tax Compliance</div>
                 </div>
-                <div id="kpiTaxReserve" class="text-base sm:text-xl font-bold text-rose-300">LSL 0</div>
-                <div class="text-[10px] text-slate-400 mt-1">Lesotho Tax Compliance</div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Charts Section -->
-        <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-800 gap-2">
-                    <div>
+            <!-- Charts Section -->
+            <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-800 gap-2">
+                        <div>
+                            <h2 class="font-bold text-white text-base flex items-center space-x-2">
+                                <i data-lucide="bar-chart-3" class="w-5 h-5 text-cyan-400"></i>
+                                <span>5-Year Holding Company Trajectory</span>
+                            </h2>
+                            <p class="text-xs text-slate-400">Dynamic forecast for GrantFlow, ClimateGuard, ContractShield, SkillBoost & OptiStock</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <select id="scenarioSelect" onchange="updateChartsScenario()" class="bg-slate-800 text-xs text-slate-200 border border-slate-700 rounded-lg px-2.5 py-1.5 focus:outline-none cursor-pointer">
+                                <option value="expected">Scenario: Average / Expected</option>
+                                <option value="best">Scenario: Best-Case (Exponential)</option>
+                                <option value="worst">Scenario: Conservative / Worst</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 h-72 sm:h-80 w-full relative flex-1">
+                        <canvas id="financialChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col">
+                    <div class="pb-4 border-b border-slate-800">
                         <h2 class="font-bold text-white text-base flex items-center space-x-2">
-                            <i data-lucide="bar-chart-3" class="w-5 h-5 text-cyan-400"></i>
-                            <span>5-Year Holding Company Trajectory</span>
+                            <i data-lucide="pie-chart" class="w-5 h-5 text-emerald-400"></i>
+                            <span>Token Burn Distribution</span>
                         </h2>
-                        <p class="text-xs text-slate-400">Dynamic forecast for GrantFlow, ClimateGuard, ContractShield, SkillBoost & OptiStock</p>
+                        <p class="text-xs text-slate-400">Compute expenditure per venture</p>
                     </div>
-                    <div class="flex items-center space-x-2">
-                        <select id="scenarioSelect" onchange="updateChartsScenario()" class="bg-slate-800 text-xs text-slate-200 border border-slate-700 rounded-lg px-2.5 py-1.5 focus:outline-none cursor-pointer">
-                            <option value="expected">Scenario: Average / Expected</option>
-                            <option value="best">Scenario: Best-Case (Exponential)</option>
-                            <option value="worst">Scenario: Conservative / Worst</option>
-                        </select>
+
+                    <div class="flex-1 flex items-center justify-center p-2 relative h-56 sm:h-auto">
+                        <canvas id="tokenAllocationChart"></canvas>
+                    </div>
+
+                    <div id="tokenLegend" class="grid grid-cols-2 gap-2 text-[11px] pt-3 border-t border-slate-800 text-slate-400"></div>
+                </div>
+            </section>
+
+            <!-- Portfolio Grid Section -->
+            <section class="space-y-3">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-lg font-bold text-white flex items-center space-x-2">
+                            <i data-lucide="layout-grid" class="w-5 h-5 text-cyan-400"></i>
+                            <span>Portfolio Child Ventures & Live Controls</span>
+                        </h2>
+                        <p class="text-xs text-slate-400">Adjust active users, token burn, or launch standalone admin portals</p>
+                    </div>
+                    <span class="text-xs text-cyan-400 font-mono bg-cyan-950/50 px-2.5 py-1 rounded-lg border border-cyan-800/60">Persistent State Saved</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4" id="venturesGrid"></div>
+            </section>
+
+            <!-- Bottom Row: GrowthAgent Feed & HITL Queue -->
+            <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col">
+                    <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+                        <div class="flex items-center space-x-2">
+                            <div class="p-2 bg-cyan-500/10 border border-cyan-500/20 rounded-lg">
+                                <i data-lucide="bot" class="w-5 h-5 text-cyan-400"></i>
+                            </div>
+                            <div>
+                                <h2 class="font-bold text-white text-base">GrowthAgent CMO Automation Feed</h2>
+                                <p class="text-xs text-slate-400">Programmatic SEO, email sequence & outbound signals</p>
+                            </div>
+                        </div>
+                        <button onclick="triggerGrowthAgentScan()" class="flex items-center space-x-1.5 bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-slate-950 font-bold text-xs px-3 py-1.5 rounded-lg shadow transition">
+                            <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+                            <span>Trigger Campaign</span>
+                        </button>
+                    </div>
+
+                    <div id="growthLog" class="my-3 flex-1 overflow-y-auto max-h-64 pr-1 space-y-2.5 font-mono text-xs"></div>
+
+                    <div class="pt-3 border-t border-slate-800 flex items-center space-x-2">
+                        <div class="text-cyan-400 font-mono text-xs shrink-0">&gt;</div>
+                        <input type="text" id="terminalInput" onkeydown="handleTerminalKey(event)" placeholder="Type command (e.g. 'status', 'audit contracts', 'reallocate', 'help')..." class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs font-mono text-slate-200 focus:outline-none focus:border-cyan-500 transition">
+                        <button onclick="executeTerminalCommand()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-cyan-400 text-xs font-mono rounded-lg border border-slate-700 transition shrink-0">Run</button>
                     </div>
                 </div>
 
-                <div class="pt-4 h-72 sm:h-80 w-full relative flex-1">
-                    <canvas id="financialChart"></canvas>
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col">
+                    <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+                        <div class="flex items-center space-x-2">
+                            <div class="p-2 bg-amber-500/10 border border-amber-500/20 rounded-lg">
+                                <i data-lucide="user-check" class="w-5 h-5 text-amber-400"></i>
+                            </div>
+                            <div>
+                                <h2 class="font-bold text-white text-base">Human-In-The-Loop Approval Queue</h2>
+                                <p class="text-xs text-slate-400">Actionable items requiring executive verification</p>
+                            </div>
+                        </div>
+                        <span id="hitlBadge" class="bg-amber-500/20 text-amber-300 text-xs px-2.5 py-1 rounded-full border border-amber-500/30 font-semibold">0 Pending</span>
+                    </div>
+
+                    <div id="hitlList" class="my-3 flex-1 overflow-y-auto max-h-72 pr-1 space-y-3"></div>
+
+                    <div class="text-[11px] text-slate-500 pt-3 border-t border-slate-800 flex justify-between items-center">
+                        <span>Multi-Agent Guardrails: Active</span>
+                        <button onclick="resetHitlQueue()" class="text-cyan-400 hover:underline">Restore Queue Items</button>
+                    </div>
                 </div>
-            </div>
+            </section>
+        </div>
 
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col">
-                <div class="pb-4 border-b border-slate-800">
-                    <h2 class="font-bold text-white text-base flex items-center space-x-2">
-                        <i data-lucide="pie-chart" class="w-5 h-5 text-emerald-400"></i>
-                        <span>Token Burn Distribution</span>
-                    </h2>
-                    <p class="text-xs text-slate-400">Compute expenditure per venture</p>
-                </div>
+        <!-- INDIVIDUAL CHILD APP SUB-DASHBOARDS -->
 
-                <div class="flex-1 flex items-center justify-center p-2 relative h-56 sm:h-auto">
-                    <canvas id="tokenAllocationChart"></canvas>
-                </div>
-
-                <div id="tokenLegend" class="grid grid-cols-2 gap-2 text-[11px] pt-3 border-t border-slate-800 text-slate-400">
-                    <!-- Dynamic legend items -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Portfolio Grid Section -->
-        <section class="space-y-3">
-            <div class="flex items-center justify-between">
-                <div>
-                    <h2 class="text-lg font-bold text-white flex items-center space-x-2">
-                        <i data-lucide="layout-grid" class="w-5 h-5 text-cyan-400"></i>
-                        <span>Portfolio Child Ventures & Live Sliders</span>
-                    </h2>
-                    <p class="text-xs text-slate-400">Adjust active user counts, token burn rates, and operational modes instantly</p>
-                </div>
-                <span class="text-xs text-cyan-400 font-mono bg-cyan-950/50 px-2.5 py-1 rounded-lg border border-cyan-800/60">Supabase Realtime Synced</span>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4" id="venturesGrid">
-                <!-- Populated dynamically via JS -->
-            </div>
-        </section>
-
-        <!-- Bottom Row: GrowthAgent Feed & HITL Queue -->
-        <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <!-- GrowthAgent Feed & Terminal -->
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col">
-                <div class="flex items-center justify-between pb-4 border-b border-slate-800">
-                    <div class="flex items-center space-x-2">
-                        <div class="p-2 bg-cyan-500/10 border border-cyan-500/20 rounded-lg">
-                            <i data-lucide="bot" class="w-5 h-5 text-cyan-400"></i>
+        <!-- VIEW 2: CONTRACTSHIELD -->
+        <div id="view-contractshield" class="hidden space-y-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-6">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-800 pb-4 gap-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="p-3 bg-cyan-500/10 border border-cyan-500/30 rounded-xl">
+                            <i data-lucide="file-check" class="w-6 h-6 text-cyan-400"></i>
                         </div>
                         <div>
-                            <h2 class="font-bold text-white text-base">GrowthAgent CMO Automation Feed</h2>
-                            <p class="text-xs text-slate-400">Programmatic SEO, email sequence & outbound signals</p>
+                            <div class="flex items-center space-x-2">
+                                <h2 class="text-xl font-bold text-white">ContractShield Dashboard</h2>
+                                <span class="text-xs px-2 py-0.5 rounded bg-cyan-950 text-cyan-400 border border-cyan-800">Legal Tech</span>
+                            </div>
+                            <p class="text-xs text-slate-400">Freelancer & Micro-Business Legal Protection Engine</p>
                         </div>
                     </div>
-                    <button onclick="triggerGrowthAgentScan()" class="flex items-center space-x-1.5 bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-slate-950 font-bold text-xs px-3 py-1.5 rounded-lg shadow transition">
-                        <i data-lucide="zap" class="w-3.5 h-3.5"></i>
-                        <span>Trigger Campaign</span>
+                    <button onclick="launchAppAdmin('contractshield')" class="flex items-center space-x-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-xs px-4 py-2 rounded-xl transition shadow-lg">
+                        <span>Launch App Portal</span>
+                        <i data-lucide="external-link" class="w-4 h-4"></i>
                     </button>
                 </div>
 
-                <div id="growthLog" class="my-3 flex-1 overflow-y-auto max-h-64 pr-1 space-y-2.5 font-mono text-xs">
-                    <!-- Log entries -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                        <span class="text-xs text-slate-400">Contracts Audited (MTD)</span>
+                        <div class="text-2xl font-bold text-white mt-1">142</div>
+                        <span class="text-[10px] text-emerald-400">+18% vs last month</span>
+                    </div>
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                        <span class="text-xs text-slate-400">Avg Audit Speed</span>
+                        <div class="text-2xl font-bold text-cyan-400 mt-1">4.2 sec</div>
+                        <span class="text-[10px] text-slate-400">LlamaParse + GPT-4o</span>
+                    </div>
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                        <span class="text-xs text-slate-400">High Risk Redlines</span>
+                        <div class="text-2xl font-bold text-amber-400 mt-1">38</div>
+                        <span class="text-[10px] text-amber-400">Flagged for HITL verification</span>
+                    </div>
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                        <span class="text-xs text-slate-400">Stripe Audit Rev</span>
+                        <div class="text-2xl font-bold text-emerald-400 mt-1">LSL 40,896</div>
+                        <span class="text-[10px] text-slate-400">LSL 288 per audit fee</span>
+                    </div>
                 </div>
 
-                <!-- Interactive Command Terminal Input -->
-                <div class="pt-3 border-t border-slate-800 flex items-center space-x-2">
-                    <div class="text-cyan-400 font-mono text-xs shrink-0">&gt;</div>
-                    <input type="text" id="terminalInput" onkeydown="handleTerminalKey(event)" placeholder="Type command (e.g. 'status', 'audit contracts', 'reallocate', 'help')..." class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs font-mono text-slate-200 focus:outline-none focus:border-cyan-500 transition">
-                    <button onclick="executeTerminalCommand()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-cyan-400 text-xs font-mono rounded-lg border border-slate-700 transition shrink-0">
-                        Run
-                    </button>
-                </div>
-            </div>
-
-            <!-- Human-In-The-Loop Approval Queue -->
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col">
-                <div class="flex items-center justify-between pb-4 border-b border-slate-800">
-                    <div class="flex items-center space-x-2">
-                        <div class="p-2 bg-amber-500/10 border border-amber-500/20 rounded-lg">
-                            <i data-lucide="user-check" class="w-5 h-5 text-amber-400"></i>
+                <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3">
+                    <h3 class="text-sm font-bold text-white flex items-center space-x-2">
+                        <i data-lucide="activity" class="w-4 h-4 text-cyan-400"></i>
+                        <span>Recent Agent Document Scan Queue</span>
+                    </h3>
+                    <div class="space-y-2 font-mono text-xs text-slate-300">
+                        <div class="flex justify-between p-2 bg-slate-900 rounded border border-slate-800">
+                            <span>[09:12] NDA_SoftwareVendor_v2.pdf</span>
+                            <span class="text-emerald-400">Audit Passed (Score: 8/10)</span>
                         </div>
-                        <div>
-                            <h2 class="font-bold text-white text-base">Human-In-The-Loop Approval Queue</h2>
-                            <p class="text-xs text-slate-400">Actionable items requiring executive verification</p>
+                        <div class="flex justify-between p-2 bg-slate-900 rounded border border-slate-800">
+                            <span>[08:45] Master_Service_Agreement_Final.docx</span>
+                            <span class="text-amber-400">High Liability Capped Required (HITL)</span>
                         </div>
                     </div>
-                    <span id="hitlBadge" class="bg-amber-500/20 text-amber-300 text-xs px-2.5 py-1 rounded-full border border-amber-500/30 font-semibold">
-                        0 Pending
-                    </span>
-                </div>
-
-                <div id="hitlList" class="my-3 flex-1 overflow-y-auto max-h-72 pr-1 space-y-3">
-                    <!-- Populated dynamically -->
-                </div>
-
-                <div class="text-[11px] text-slate-500 pt-3 border-t border-slate-800 flex justify-between items-center">
-                    <span>Multi-Agent Guardrails: Active</span>
-                    <button onclick="resetHitlQueue()" class="text-cyan-400 hover:underline">Restore Queue Items</button>
                 </div>
             </div>
-        </section>
+        </div>
+
+        <!-- VIEW 3: GRANTFLOW -->
+        <div id="view-grantflow" class="hidden space-y-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-6">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-800 pb-4 gap-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="p-3 bg-emerald-500/10 border border-emerald-500/30 rounded-xl">
+                            <i data-lucide="award" class="w-6 h-6 text-emerald-400"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <h2 class="text-xl font-bold text-white">GrantFlow Dashboard</h2>
+                                <span class="text-xs px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800">NGO & Non-Profit</span>
+                            </div>
+                            <p class="text-xs text-slate-400">NGO Funding & Proposal Generation Engine</p>
+                        </div>
+                    </div>
+                    <button onclick="launchAppAdmin('grantflow')" class="flex items-center space-x-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-bold text-xs px-4 py-2 rounded-xl transition shadow-lg">
+                        <span>Launch App Portal</span>
+                        <i data-lucide="external-link" class="w-4 h-4"></i>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                        <span class="text-xs text-slate-400">Proposals Drafted</span>
+                        <div class="text-2xl font-bold text-white mt-1">64</div>
+                        <span class="text-[10px] text-emerald-400">Active UN & EU Grants</span>
+                    </div>
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                        <span class="text-xs text-slate-400">Grant Match Success Rate</span>
+                        <div class="text-2xl font-bold text-emerald-400 mt-1">92.4%</div>
+                        <span class="text-[10px] text-slate-400">Vector Embeddings RAG</span>
+                    </div>
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                        <span class="text-xs text-slate-400">Capital Secured for NGOs</span>
+                        <div class="text-2xl font-bold text-cyan-400 mt-1">$420,000</div>
+                        <span class="text-[10px] text-slate-400">12 funded proposals</span>
+                    </div>
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                        <span class="text-xs text-slate-400">Monthly Subscriptions</span>
+                        <div class="text-2xl font-bold text-emerald-400 mt-1">LSL 29,520</div>
+                        <span class="text-[10px] text-slate-400">48 active NGO teams</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 4: OPTISTOCK -->
+        <div id="view-optistock" class="hidden space-y-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-6">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-800 pb-4 gap-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="p-3 bg-purple-500/10 border border-purple-500/30 rounded-xl">
+                            <i data-lucide="boxes" class="w-6 h-6 text-purple-400"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <h2 class="text-xl font-bold text-white">OptiStock Dashboard</h2>
+                                <span class="text-xs px-2 py-0.5 rounded bg-purple-950 text-purple-400 border border-purple-800">Merchant Supply</span>
+                            </div>
+                            <p class="text-xs text-slate-400">Local Merchant & Inventory Analytics Hub</p>
+                        </div>
+                    </div>
+                    <button onclick="launchAppAdmin('optistock')" class="flex items-center space-x-2 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-400 hover:to-indigo-500 text-slate-950 font-bold text-xs px-4 py-2 rounded-xl transition shadow-lg">
+                        <span>Launch App Portal</span>
+                        <i data-lucide="external-link" class="w-4 h-4"></i>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                        <span class="text-xs text-slate-400">Connected Merchants</span>
+                        <div class="text-2xl font-bold text-white mt-1">62</div>
+                        <span class="text-[10px] text-purple-400">POS & CSV feeds active</span>
+                    </div>
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                        <span class="text-xs text-slate-400">Stockouts Prevented</span>
+                        <div class="text-2xl font-bold text-emerald-400 mt-1">310</div>
+                        <span class="text-[10px] text-slate-400">Automated reorder triggers</span>
+                    </div>
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                        <span class="text-xs text-slate-400">PO Volume Processed</span>
+                        <div class="text-2xl font-bold text-cyan-400 mt-1">LSL 185,000</div>
+                        <span class="text-[10px] text-slate-400">Direct supplier links</span>
+                    </div>
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                        <span class="text-xs text-slate-400">MRR Run-Rate</span>
+                        <div class="text-2xl font-bold text-purple-300 mt-1">LSL 26,970</div>
+                        <span class="text-[10px] text-slate-400">LSL 435 / mo per store</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 5: SKILLBOOST -->
+        <div id="view-skillboost" class="hidden space-y-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-6">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-800 pb-4 gap-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="p-3 bg-amber-500/10 border border-amber-500/30 rounded-xl">
+                            <i data-lucide="graduation-cap" class="w-6 h-6 text-amber-400"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <h2 class="text-xl font-bold text-white">SkillBoost Dashboard</h2>
+                                <span class="text-xs px-2 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-800">EdTech Reskilling</span>
+                            </div>
+                            <p class="text-xs text-slate-400">Interactive Technical Learning Sandbox</p>
+                        </div>
+                    </div>
+                    <button onclick="launchAppAdmin('skillboost')" class="flex items-center space-x-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-slate-950 font-bold text-xs px-4 py-2 rounded-xl transition shadow-lg">
+                        <span>Launch App Portal</span>
+                        <i data-lucide="external-link" class="w-4 h-4"></i>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                        <span class="text-xs text-slate-400">Active Learners</span>
+                        <div class="text-2xl font-bold text-white mt-1">90</div>
+                        <span class="text-[10px] text-amber-400">Python, SQL & GIS paths</span>
+                    </div>
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                        <span class="text-xs text-slate-400">Completion Rate</span>
+                        <div class="text-2xl font-bold text-emerald-400 mt-1">84.5%</div>
+                        <span class="text-[10px] text-slate-400">AI Tutor feedback loop</span>
+                    </div>
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                        <span class="text-xs text-slate-400">Code Evaluations</span>
+                        <div class="text-2xl font-bold text-cyan-400 mt-1">1,240</div>
+                        <span class="text-[10px] text-slate-400">Automated sandbox passes</span>
+                    </div>
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                        <span class="text-xs text-slate-400">MRR Run-Rate</span>
+                        <div class="text-2xl font-bold text-amber-300 mt-1">LSL 40,500</div>
+                        <span class="text-[10px] text-slate-400">LSL 450 / mo per student</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 6: CLIMATEGUARD -->
+        <div id="view-climateguard" class="hidden space-y-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-6">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-800 pb-4 gap-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="p-3 bg-rose-500/10 border border-rose-500/30 rounded-xl">
+                            <i data-lucide="cloud-lightning" class="w-6 h-6 text-rose-400"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <h2 class="text-xl font-bold text-white">ClimateGuard Dashboard</h2>
+                                <span class="text-xs px-2 py-0.5 rounded bg-rose-950 text-rose-400 border border-rose-800">AgriRisk Network</span>
+                            </div>
+                            <p class="text-xs text-slate-400">Spatial Climate Risk & Weather Alert Network</p>
+                        </div>
+                    </div>
+                    <button onclick="launchAppAdmin('climateguard')" class="flex items-center space-x-2 bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-400 hover:to-pink-500 text-slate-950 font-bold text-xs px-4 py-2 rounded-xl transition shadow-lg">
+                        <span>Launch App Portal</span>
+                        <i data-lucide="external-link" class="w-4 h-4"></i>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                        <span class="text-xs text-slate-400">Monitored Coordinates</span>
+                        <div class="text-2xl font-bold text-white mt-1">20 Grids</div>
+                        <span class="text-[10px] text-rose-400">Hololo & Maseru Basins</span>
+                    </div>
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                        <span class="text-xs text-slate-400">Twilio Alerts Dispatched</span>
+                        <div class="text-2xl font-bold text-amber-400 mt-1">1,840 SMS</div>
+                        <span class="text-[10px] text-slate-400">Drought & Frost Warnings</span>
+                    </div>
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                        <span class="text-xs text-slate-400">GIS Satellite Feeds</span>
+                        <div class="text-2xl font-bold text-cyan-400 mt-1">100% Active</div>
+                        <span class="text-[10px] text-slate-400">Copernicus Spatial API</span>
+                    </div>
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                        <span class="text-xs text-slate-400">MRR Run-Rate</span>
+                        <div class="text-2xl font-bold text-rose-300 mt-1">LSL 22,500</div>
+                        <span class="text-[10px] text-slate-400">B2B Agri & Municipal</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 
     <!-- Salary Modal -->
@@ -296,7 +570,6 @@
                 </button>
             </div>
 
-            <!-- Interactive Sliders / Inputs for Founders -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-950 p-4 rounded-xl border border-slate-800">
                 <div>
                     <label class="block text-xs font-medium text-slate-300 mb-1">Year 1 Monthly Base (Per Founder in LSL):</label>
@@ -325,9 +598,7 @@
                             <th class="py-2.5 px-3 text-right">Custom Dividend Pool</th>
                         </tr>
                     </thead>
-                    <tbody id="salaryTableBody" class="divide-y divide-slate-800 text-slate-300">
-                        <!-- Populated dynamically -->
-                    </tbody>
+                    <tbody id="salaryTableBody" class="divide-y divide-slate-800 text-slate-300"></tbody>
                 </table>
             </div>
 
@@ -346,28 +617,28 @@
 
     <script>
         // ============================================================================
-        // SUPABASE CONFIGURATION - PASTE YOUR PROJECT DETAILS HERE
+        // SUPABASE CONFIGURATION
         // ============================================================================
-        const SUPABASE_URL = 'https://ljzfsqnyxsaigsjpnxuu.supabase.co'; // Replace with your URL
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqemZzcW55eHNhaWdzanBueHV1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE4NTI4NTMsImV4cCI6MjEwNzQyODg1M30.yGQB3h_axyIQTmix09njxVNklUOhO1qShO0NGYu6RTs';        // Replace with your Anon Key
+        const SUPABASE_URL = 'https://ljzfsqnyxsaigsjpnxuu.supabase.co'; 
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqemZzcW55eHNhaWdzanBueHV1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE4NTI4NTMsImV4cCI6MjEwNzQyODg1M30.yGQB3h_axyIQTmix09njxVNklUOhO1qShO0NGYu6RTs';        
         
         let supabaseClient = null;
         if (SUPABASE_URL !== 'https://YOUR_PROJECT_ID.supabase.co' && window.supabase) {
             supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         }
 
-        // Default App Fallback State
         const defaultState = {
             currency: 'LSL',
             scenario: 'expected',
+            activeView: 'overview',
             salaryY1Base: 20000,
             dividendSplit: 50,
             ventures: [
-                { id: 'contractshield', db_id: null, name: 'ContractShield', desc: 'Legal Tech Protection', status: 'Active', users: 75, mrrPerUser: 288, tokenCost: 11475, color: 'cyan' },
-                { id: 'grantflow', db_id: null, name: 'GrantFlow', desc: 'NGO Proposal Engine', status: 'Active', users: 48, mrrPerUser: 615, tokenCost: 9560, color: 'emerald' },
-                { id: 'optistock', db_id: null, name: 'OptiStock', desc: 'Merchant Intelligence', status: 'Active', users: 62, mrrPerUser: 435, tokenCost: 5735, color: 'purple' },
-                { id: 'skillboost', db_id: null, name: 'SkillBoost', desc: 'Next-Gen Reskilling', status: 'Active', users: 90, mrrPerUser: 450, tokenCost: 7650, color: 'amber' },
-                { id: 'climateguard', db_id: null, name: 'ClimateGuard', desc: 'Climate Risk Network', status: 'Active', users: 20, mrrPerUser: 1125, tokenCost: 3830, color: 'rose' }
+                { id: 'contractshield', db_id: null, name: 'ContractShield', domain: 'contractshield.com', desc: 'Legal Tech Protection', status: 'Active', users: 75, mrrPerUser: 288, tokenCost: 11475, color: 'cyan' },
+                { id: 'grantflow', db_id: null, name: 'GrantFlow', domain: 'grantflow.org', desc: 'NGO Proposal Engine', status: 'Active', users: 48, mrrPerUser: 615, tokenCost: 9560, color: 'emerald' },
+                { id: 'optistock', db_id: null, name: 'OptiStock', domain: 'optistock.com', desc: 'Merchant Intelligence', status: 'Active', users: 62, mrrPerUser: 435, tokenCost: 5735, color: 'purple' },
+                { id: 'skillboost', db_id: null, name: 'SkillBoost', domain: 'skillboost.com', desc: 'Next-Gen Reskilling', status: 'Active', users: 90, mrrPerUser: 450, tokenCost: 7650, color: 'amber' },
+                { id: 'climateguard', db_id: null, name: 'ClimateGuard', domain: 'climateguard.org', desc: 'Climate Risk Network', status: 'Active', users: 20, mrrPerUser: 1125, tokenCost: 3830, color: 'rose' }
             ],
             hitlQueue: [
                 { id: 1, venture: 'ContractShield', title: 'High-Risk Redline Review: Enterprise NDA', desc: 'Indemnity capped at LSL 5,000,000. Verification required before releasing client audit report.', status: 'pending' },
@@ -375,13 +646,13 @@
                 { id: 3, venture: 'OptiStock', title: 'Supplier PO #109 Bulk Disbursement', desc: 'Automated procurement pool of LSL 18,500 waiting for treasury sign-off.', status: 'pending' }
             ],
             logs: [
-                { time: '08:42:10', text: "[System] Nexus Holdings Command Center v2.4 initialized.", color: "text-cyan-400" },
+                { time: '08:42:10', text: "[System] Nexus Holdings Command Center v2.5 initialized.", color: "text-cyan-400" },
                 { time: '08:42:15', text: "[GrantFlow] Programmatic SEO page published: 'UN Small Grants Lesotho 2026'", color: "text-emerald-400" },
                 { time: '08:42:18', text: "[ContractShield] Signal Outbound sent to 14 freelance developers in Maseru", color: "text-cyan-400" }
             ]
         };
 
-        let appState = JSON.parse(localStorage.getItem('nexus_state_v2')) || defaultState;
+        let appState = JSON.parse(localStorage.getItem('nexus_state_v2.5')) || defaultState;
 
         const currencyRates = { 'LSL': 1.0, 'ZAR': 1.0, 'USD': 0.055 };
         const currencySymbols = { 'LSL': 'LSL ', 'ZAR': 'R ', 'USD': '$' };
@@ -390,21 +661,48 @@
         let tokenChartInstance = null;
 
         function saveState() {
-            localStorage.setItem('nexus_state_v2', JSON.stringify(appState));
+            localStorage.setItem('nexus_state_v2.5', JSON.stringify(appState));
+        }
+
+        // Navigation Switcher (Option A)
+        function switchView(viewId) {
+            appState.activeView = viewId;
+            saveState();
+
+            const views = ['overview', 'contractshield', 'grantflow', 'optistock', 'skillboost', 'climateguard'];
+            views.forEach(v => {
+                const el = document.getElementById(`view-${v}`);
+                const tab = document.getElementById(`tab-${v}`);
+                if (el) el.classList.add('hidden');
+                if (tab) {
+                    tab.className = "px-3.5 py-1.5 rounded-lg font-medium flex items-center space-x-2 transition text-slate-400 hover:text-white hover:bg-slate-800/80";
+                }
+            });
+
+            const activeEl = document.getElementById(`view-${viewId}`);
+            const activeTab = document.getElementById(`tab-${viewId}`);
+            if (activeEl) activeEl.classList.remove('hidden');
+            if (activeTab) {
+                activeTab.className = "px-3.5 py-1.5 rounded-lg font-semibold flex items-center space-x-2 transition bg-cyan-500/20 text-cyan-300 border border-cyan-500/40";
+            }
+            lucide.createIcons();
+        }
+
+        // Standalone External Launcher (Option B)
+        function launchAppAdmin(ventureId) {
+            const venture = appState.ventures.find(v => v.id === ventureId);
+            const domain = venture ? venture.domain : `${ventureId}.com`;
+            showToast(`Opening standalone portal: https://app.${domain}`, 'info');
+            window.open(`https://app.${domain}`, '_blank');
         }
 
         function showToast(message, type = 'success') {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
             toast.className = `pointer-events-auto px-4 py-3 rounded-xl border text-xs font-medium shadow-2xl transition-all duration-300 transform translate-y-2 opacity-0 flex items-center space-x-2 ${
-                type === 'success' 
-                ? 'bg-slate-900 border-emerald-500/40 text-emerald-300' 
-                : 'bg-slate-900 border-cyan-500/40 text-cyan-300'
+                type === 'success' ? 'bg-slate-900 border-emerald-500/40 text-emerald-300' : 'bg-slate-900 border-cyan-500/40 text-cyan-300'
             }`;
-            toast.innerHTML = `
-                <i data-lucide="${type === 'success' ? 'check-circle-2' : 'info'}" class="w-4 h-4 shrink-0"></i>
-                <span>${message}</span>
-            `;
+            toast.innerHTML = `<i data-lucide="${type === 'success' ? 'check-circle-2' : 'info'}" class="w-4 h-4 shrink-0"></i><span>${message}</span>`;
             container.appendChild(toast);
             lucide.createIcons();
 
@@ -426,9 +724,8 @@
         }
 
         // ============================================================================
-        // SUPABASE ASYNCHRONOUS DATABASE FUNCTIONS
+        // SUPABASE DB SYNC
         // ============================================================================
-
         async function fetchSupabaseVentures() {
             if (!supabaseClient) return;
             try {
@@ -448,118 +745,8 @@
                     saveState();
                 }
             } catch (err) {
-                console.warn("Supabase Ventures Fetch Warning:", err.message);
                 setConnectionStatus(false, "Using Local Cache (Offline/Unconfigured)");
             }
-        }
-
-        async function fetchSupabaseHITLQueue() {
-            if (!supabaseClient) return;
-            try {
-                const { data, error } = await supabaseClient
-                    .from('hitl_queue')
-                    .select('id, title, description, status, risk_level, ventures(slug)')
-                    .eq('status', 'pending');
-                
-                if (error) throw error;
-                if (data && data.length > 0) {
-                    appState.hitlQueue = data.map(i => ({
-                        id: i.id,
-                        venture: i.ventures ? i.ventures.slug : 'Nexus',
-                        title: i.title,
-                        desc: i.description,
-                        status: i.status
-                    }));
-                    renderHitlQueue();
-                    saveState();
-                }
-            } catch (err) {
-                console.warn("Supabase HITL Fetch Warning:", err.message);
-            }
-        }
-
-        async function fetchSupabaseGrowthLogs() {
-            if (!supabaseClient) return;
-            try {
-                const { data, error } = await supabaseClient
-                    .from('growth_agent_terminal')
-                    .select('created_at, action_taken, channel')
-                    .order('created_at', { ascending: false })
-                    .limit(10);
-
-                if (error) throw error;
-                if (data && data.length > 0) {
-                    data.reverse().forEach(log => {
-                        const timeStr = new Date(log.created_at).toTimeString().split(' ')[0];
-                        const logText = `[${log.channel.toUpperCase()}] ${log.action_taken}`;
-                        if (!appState.logs.some(l => l.text === logText)) {
-                            appState.logs.push({ time: timeStr, text: logText, color: 'text-emerald-400' });
-                        }
-                    });
-                    renderGrowthLogs();
-                    saveState();
-                }
-            } catch (err) {
-                console.warn("Supabase Growth Logs Fetch Warning:", err.message);
-            }
-        }
-
-        async function syncVentureUpdateToSupabase(venture) {
-            if (!supabaseClient || !venture.db_id) return;
-            try {
-                const { error } = await supabaseClient
-                    .from('ventures')
-                    .update({
-                        active_users: venture.users,
-                        token_burn_rate: venture.tokenCost,
-                        is_active: venture.status !== 'Paused'
-                    })
-                    .eq('id', venture.db_id);
-
-                if (error) throw error;
-            } catch (err) {
-                console.error("Failed to sync venture update to Supabase:", err.message);
-            }
-        }
-
-        async function syncHITLToSupabase(id, decision) {
-            if (!supabaseClient) return;
-            try {
-                const { error } = await supabaseClient
-                    .from('hitl_queue')
-                    .update({ status: decision, reviewed_at: new Date() })
-                    .eq('id', id);
-
-                if (error) throw error;
-            } catch (err) {
-                console.error("Failed to sync HITL update to Supabase:", err.message);
-            }
-        }
-
-        function initSupabaseRealtime() {
-            if (!supabaseClient) return;
-
-            supabaseClient
-                .channel('nexus-live-channel')
-                .on('postgres_changes', { event: '*', schema: 'public', table: 'hitl_queue' }, payload => {
-                    showToast('New executive review item synced live.', 'info');
-                    fetchSupabaseHITLQueue();
-                })
-                .on('postgres_changes', { event: '*', schema: 'public', table: 'ventures' }, payload => {
-                    fetchSupabaseVentures();
-                    updateKPIs();
-                    renderVenturesGrid();
-                })
-                .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'growth_agent_terminal' }, payload => {
-                    const newLog = payload.new;
-                    const timeStr = new Date(newLog.created_at).toTimeString().split(' ')[0];
-                    addGrowthLog(`[${newLog.channel.toUpperCase()}] ${newLog.action_taken}`, 'text-emerald-400');
-                })
-                .subscribe((status) => {
-                    if (status === 'SUBSCRIBED') {
-                        setConnectionStatus(true, "Realtime Subscriptions Active");
-                    }
-                });
         }
 
         function setConnectionStatus(isConnected, text) {
@@ -579,39 +766,7 @@
             }
         }
 
-        // ============================================================================
-        // CALCULATIONS & UI RENDERING
-        // ============================================================================
-
-        function calculateMetrics() {
-            let totalMRR = 0, totalTokenBurn = 0, totalUsers = 0;
-            appState.ventures.forEach(v => {
-                if (v.status !== 'Paused') {
-                    totalMRR += (v.users * v.mrrPerUser);
-                    totalTokenBurn += v.tokenCost;
-                    totalUsers += Number(v.users);
-                }
-            });
-            const combinedAnnualRev = totalMRR * 12;
-            return {
-                mrr: totalMRR,
-                annualRev: combinedAnnualRev,
-                tokenBurn: totalTokenBurn,
-                users: totalUsers,
-                treasury: combinedAnnualRev * 0.05,
-                tax: combinedAnnualRev * 0.11
-            };
-        }
-
-        function updateKPIs() {
-            const m = calculateMetrics();
-            document.getElementById('kpiCombinedMRR').innerText = formatMoney(m.mrr);
-            document.getElementById('kpiTokenBurn').innerText = formatMoney(m.tokenBurn);
-            document.getElementById('kpiActiveUsers').innerText = m.users.toLocaleString();
-            document.getElementById('kpiTreasury').innerText = formatMoney(m.treasury);
-            document.getElementById('kpiTaxReserve').innerText = formatMoney(m.tax);
-        }
-
+        // Render Portfolio Cards Grid
         function renderVenturesGrid() {
             const grid = document.getElementById('venturesGrid');
             grid.innerHTML = '';
@@ -626,7 +781,7 @@
                 card.innerHTML = `
                     <div>
                         <div class="flex items-center justify-between mb-2">
-                            <span class="text-xs font-bold text-white">${v.name}</span>
+                            <span class="text-xs font-bold text-white cursor-pointer hover:text-cyan-400" onclick="switchView('${v.id}')">${v.name}</span>
                             <select onchange="updateVentureStatus(${index}, this.value)" class="bg-slate-800 text-[10px] text-slate-200 border border-slate-700 rounded px-1.5 py-0.5 focus:outline-none cursor-pointer">
                                 <option value="Active" ${v.status === 'Active' ? 'selected' : ''}>Active</option>
                                 <option value="Autonomous Optimization" ${v.status === 'Autonomous Optimization' ? 'selected' : ''}>Autonomous</option>
@@ -638,369 +793,3 @@
                         <div class="space-y-2 text-xs">
                             <div class="flex justify-between items-center">
                                 <span class="text-slate-400">Users: <span class="text-white font-semibold" id="userVal-${index}">${v.users}</span></span>
-                                <span class="font-semibold text-emerald-400">${formatMoney(computedMRR)} MRR</span>
-                            </div>
-                            <input type="range" min="5" max="250" step="1" value="${v.users}" oninput="handleUserSlider(${index}, this.value)" class="w-full accent-cyan-400 cursor-pointer">
-
-                            <div class="flex justify-between items-center pt-1">
-                                <span class="text-slate-400 text-[11px]">Token Burn:</span>
-                                <input type="number" min="500" max="50000" step="500" value="${v.tokenCost}" onchange="handleTokenCostChange(${index}, this.value)" class="w-24 bg-slate-950 border border-slate-800 rounded px-1.5 py-0.5 text-right text-amber-300 font-mono text-[11px] focus:outline-none focus:border-cyan-500">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px]">
-                        <span class="text-slate-500">AI Agents</span>
-                        <span class="text-cyan-400 font-mono text-[10px] bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-800/50">LangGraph v0.2</span>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        function updateVentureStatus(index, newStatus) {
-            appState.ventures[index].status = newStatus;
-            saveState();
-            updateKPIs();
-            syncVentureUpdateToSupabase(appState.ventures[index]);
-            showToast(`${appState.ventures[index].name} status updated to ${newStatus}`, 'info');
-        }
-
-        function handleUserSlider(index, val) {
-            appState.ventures[index].users = Number(val);
-            document.getElementById(`userVal-${index}`).innerText = val;
-            saveState();
-            updateKPIs();
-            updateChartsData();
-            syncVentureUpdateToSupabase(appState.ventures[index]);
-        }
-
-        function handleTokenCostChange(index, val) {
-            appState.ventures[index].tokenCost = Number(val);
-            saveState();
-            updateKPIs();
-            initTokenChart();
-            syncVentureUpdateToSupabase(appState.ventures[index]);
-        }
-
-        function renderHitlQueue() {
-            const list = document.getElementById('hitlList');
-            const badge = document.getElementById('hitlBadge');
-            list.innerHTML = '';
-
-            const pendingItems = appState.hitlQueue.filter(item => item.status === 'pending');
-            badge.innerText = `${pendingItems.length} Pending`;
-
-            if (pendingItems.length === 0) {
-                list.innerHTML = `
-                    <div class="flex flex-col items-center justify-center py-10 text-slate-500 text-center">
-                        <i data-lucide="check-circle" class="w-8 h-8 text-emerald-400 mb-2"></i>
-                        <p class="text-xs">All high-risk agent decisions verified and cleared.</p>
-                    </div>
-                `;
-                lucide.createIcons();
-                return;
-            }
-
-            pendingItems.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'bg-slate-950 border border-slate-800/80 rounded-xl p-3.5 space-y-2';
-                card.innerHTML = `
-                    <div class="flex items-center justify-between">
-                        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950 text-cyan-400 border border-cyan-800/60">${item.venture}</span>
-                        <span class="text-[10px] text-amber-400 font-medium">Requires Approval</span>
-                    </div>
-                    <div>
-                        <h4 class="text-xs font-bold text-white">${item.title}</h4>
-                        <p class="text-[11px] text-slate-400 mt-0.5">${item.desc}</p>
-                    </div>
-                    <div class="flex justify-end space-x-2 pt-2 border-t border-slate-900">
-                        <button onclick="reviewHitl(${item.id}, 'rejected')" class="px-2.5 py-1 bg-slate-800 hover:bg-rose-950 text-rose-300 rounded text-[11px] font-medium transition">Reject</button>
-                        <button onclick="reviewHitl(${item.id}, 'approved')" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-slate-950 rounded text-[11px] font-bold transition">Authorize & Sign</button>
-                    </div>
-                `;
-                list.appendChild(card);
-            });
-            lucide.createIcons();
-        }
-
-        function reviewHitl(id, decision) {
-            const item = appState.hitlQueue.find(i => i.id === id);
-            if (item) {
-                item.status = decision;
-                saveState();
-                renderHitlQueue();
-                syncHITLToSupabase(id, decision);
-                showToast(`HITL Item #${id} was ${decision}`, decision === 'approved' ? 'success' : 'info');
-                addGrowthLog(`[HITL] Item '${item.title}' was ${decision} by Executive`, decision === 'approved' ? 'text-emerald-400' : 'text-rose-400');
-            }
-        }
-
-        function resetHitlQueue() {
-            appState.hitlQueue.forEach(i => i.status = 'pending');
-            saveState();
-            renderHitlQueue();
-            showToast("HITL Approval Queue restored.", "info");
-        }
-
-        function renderGrowthLogs() {
-            const container = document.getElementById('growthLog');
-            container.innerHTML = '';
-
-            appState.logs.forEach(log => {
-                const div = document.createElement('div');
-                div.className = `flex space-x-2 ${log.color || 'text-slate-300'}`;
-                div.innerHTML = `
-                    <span class="text-slate-500 shrink-0">[${log.time}]</span>
-                    <span>${log.text}</span>
-                `;
-                container.appendChild(div);
-            });
-            container.scrollTop = container.scrollHeight;
-        }
-
-        function addGrowthLog(text, color = 'text-cyan-400') {
-            const now = new Date();
-            const timeStr = now.toTimeString().split(' ')[0];
-            appState.logs.push({ time: timeStr, text, color });
-            if (appState.logs.length > 30) appState.logs.shift();
-            saveState();
-            renderGrowthLogs();
-        }
-
-        async function triggerGrowthAgentScan() {
-            const actions = [
-                { channel: 'programmatic_seo', action: "Published 15 long-tail SEO pages across GrantFlow and ContractShield." },
-                { channel: 'outbound_linkedin', action: "Dispatched 28 personalized signal messages to freelance engineers." },
-                { channel: 'funnel_ab', action: "A/B test concluded for OptiStock landing page (+14% conversion)." }
-            ];
-            const randomItem = actions[Math.floor(Math.random() * actions.length)];
-            
-            addGrowthLog(`[${randomItem.channel.toUpperCase()}] ${randomItem.action}`, "text-emerald-400");
-            showToast("GrowthAgent campaign executed successfully.", "success");
-
-            if (supabaseClient) {
-                try {
-                    await supabaseClient.from('growth_agent_terminal').insert([{
-                        channel: randomItem.channel,
-                        action_taken: randomItem.action
-                    }]);
-                } catch (err) {
-                    console.error("Failed to log GrowthAgent campaign to Supabase:", err);
-                }
-            }
-        }
-
-        function handleTerminalKey(event) {
-            if (event.key === 'Enter') executeTerminalCommand();
-        }
-
-        function executeTerminalCommand() {
-            const input = document.getElementById('terminalInput');
-            const cmd = input.value.trim().toLowerCase();
-            if (!cmd) return;
-
-            addGrowthLog(`> ${cmd}`, 'text-white');
-            input.value = '';
-
-            if (cmd === 'status') {
-                addGrowthLog("[System] All 5 child ventures active. Multi-agent cluster operating at 99.8% efficiency.", "text-cyan-400");
-            } else if (cmd === 'audit contracts') {
-                addGrowthLog("[ContractShield] Initiated batch scan on 42 pending agreements. 3 high-risk flags identified.", "text-amber-300");
-            } else if (cmd === 'reallocate') {
-                addGrowthLog("[Treasury] Reallocation executed: +15% token compute routed to SkillBoost based on ROI.", "text-emerald-400");
-            } else if (cmd === 'deploy agent') {
-                addGrowthLog("[Nexus Core] Initializing new agent worker instance... Sandbox compiled successfully.", "text-cyan-400");
-            } else if (cmd === 'clear') {
-                appState.logs = [];
-                saveState();
-                renderGrowthLogs();
-            } else if (cmd === 'help') {
-                addGrowthLog("Available commands: status, audit contracts, reallocate, deploy agent, clear, help", "text-slate-300");
-            } else {
-                addGrowthLog(`Unknown command '${cmd}'. Type 'help' for available commands.`, "text-rose-400");
-            }
-        }
-
-        // ============================================================================
-        // CHARTS & MODALS
-        // ============================================================================
-
-        function initFinancialChart() {
-            const ctx = document.getElementById('financialChart').getContext('2d');
-            const datasetsMap = {
-                expected: { rev: [1.69, 7.22, 22.64, 56.57, 120.58], profit: [1.23, 5.65, 18.23, 46.49, 100.42] },
-                best: { rev: [3.20, 15.00, 48.00, 125.00, 260.00], profit: [2.45, 12.20, 39.80, 105.50, 222.00] },
-                worst: { rev: [0.45, 1.80, 4.50, 9.80, 18.00], profit: [0.27, 1.26, 3.25, 7.20, 13.50] }
-            };
-
-            const currentData = datasetsMap[appState.scenario];
-            if (financialChartInstance) financialChartInstance.destroy();
-
-            financialChartInstance = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
-                    datasets: [
-                        { label: 'Gross Revenue (M LSL)', data: currentData.rev, backgroundColor: 'rgba(34, 211, 238, 0.7)', borderColor: '#22d3ee', borderWidth: 1, borderRadius: 6 },
-                        { label: 'Operating Profit (M LSL)', data: currentData.profit, backgroundColor: 'rgba(52, 211, 153, 0.7)', borderColor: '#34d399', borderWidth: 1, borderRadius: 6 }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { labels: { color: '#94a3b8', font: { size: 11 } } } },
-                    scales: {
-                        x: { grid: { color: 'rgba(30, 41, 59, 0.5)' }, ticks: { color: '#94a3b8' } },
-                        y: { grid: { color: 'rgba(30, 41, 59, 0.5)' }, ticks: { color: '#94a3b8' } }
-                    }
-                }
-            });
-        }
-
-        function updateChartsScenario() {
-            appState.scenario = document.getElementById('scenarioSelect').value;
-            saveState();
-            initFinancialChart();
-            showToast(`Trajectory scenario updated to ${appState.scenario}`, 'info');
-        }
-
-        function updateChartsData() { initFinancialChart(); }
-
-        function initTokenChart() {
-            const ctx = document.getElementById('tokenAllocationChart').getContext('2d');
-            const labels = appState.ventures.map(v => v.name);
-            const data = appState.ventures.map(v => v.tokenCost);
-            const backgroundColors = ['#22d3ee', '#34d399', '#a78bfa', '#fbbf24', '#f43f5e'];
-
-            if (tokenChartInstance) tokenChartInstance.destroy();
-
-            tokenChartInstance = new Chart(ctx, {
-                type: 'doughnut',
-                data: { labels: labels, datasets: [{ data: data, backgroundColor: backgroundColors, borderWidth: 0 }] },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-            });
-
-            const legendContainer = document.getElementById('tokenLegend');
-            legendContainer.innerHTML = '';
-            appState.ventures.forEach((v, i) => {
-                const div = document.createElement('div');
-                div.className = 'flex items-center space-x-2';
-                div.innerHTML = `
-                    <span class="w-2.5 h-2.5 rounded-full" style="background-color: ${backgroundColors[i]}"></span>
-                    <span class="truncate">${v.name}: LSL ${v.tokenCost.toLocaleString()}</span>
-                `;
-                legendContainer.appendChild(div);
-            });
-        }
-
-        function updateCurrencyDisplay() {
-            appState.currency = document.getElementById('currencySelect').value;
-            saveState();
-            updateKPIs();
-            renderVenturesGrid();
-            showToast(`Currency converted to ${appState.currency}`, 'info');
-        }
-
-        function openSalaryModal() {
-            document.getElementById('salaryModal').classList.remove('hidden');
-            document.getElementById('sliderBaseY1').value = appState.salaryY1Base;
-            document.getElementById('valBaseY1').innerText = `LSL ${(appState.salaryY1Base/1000).toFixed(0)}k`;
-            document.getElementById('sliderDivSplit').value = appState.dividendSplit;
-            document.getElementById('valDivSplit').innerText = `${appState.dividendSplit}%`;
-            renderSalaryTable();
-        }
-
-        function closeSalaryModal() { document.getElementById('salaryModal').classList.add('hidden'); }
-
-        function updateSalaryPlanner() {
-            appState.salaryY1Base = Number(document.getElementById('sliderBaseY1').value);
-            document.getElementById('valBaseY1').innerText = `LSL ${(appState.salaryY1Base/1000).toFixed(0)}k`;
-            appState.dividendSplit = Number(document.getElementById('sliderDivSplit').value);
-            document.getElementById('valDivSplit').innerText = `${appState.dividendSplit}%`;
-            renderSalaryTable();
-        }
-
-        function renderSalaryTable() {
-            const tbody = document.getElementById('salaryTableBody');
-            tbody.innerHTML = '';
-            const baseY1 = appState.salaryY1Base;
-            const split = appState.dividendSplit / 100;
-
-            const yearsData = [
-                { year: 'Year 1', mdBase: baseY1 * 12, opsBase: baseY1 * 12, rawPool: 455664 },
-                { year: 'Year 2', mdBase: baseY1 * 24, opsBase: baseY1 * 24, rawPool: 3079032 },
-                { year: 'Year 3', mdBase: baseY1 * 40, opsBase: baseY1 * 40, rawPool: 10860672 },
-                { year: 'Year 4', mdBase: baseY1 * 75, opsBase: baseY1 * 75, rawPool: 28733472 },
-                { year: 'Year 5', mdBase: baseY1 * 125, opsBase: baseY1 * 125, rawPool: 63486960 }
-            ];
-
-            yearsData.forEach(row => {
-                const combinedBase = row.mdBase + row.opsBase;
-                const customDividendPool = row.rawPool * split;
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td class="py-2.5 px-3 font-bold text-white">${row.year}</td>
-                    <td class="py-2.5 px-3 font-mono">LSL ${row.mdBase.toLocaleString()}</td>
-                    <td class="py-2.5 px-3 font-mono">LSL ${row.opsBase.toLocaleString()}</td>
-                    <td class="py-2.5 px-3 font-mono text-cyan-400">LSL ${combinedBase.toLocaleString()}</td>
-                    <td class="py-2.5 px-3 font-mono text-right text-emerald-400 font-bold">LSL ${Math.round(customDividendPool).toLocaleString()}</td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        function saveSalaryPreferences() {
-            saveState();
-            closeSalaryModal();
-            showToast("Executive compensation preferences saved successfully.", "success");
-        }
-
-        function exportStateJson() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState, null, 2));
-            const downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", "nexus_holdings_state.json");
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
-            showToast("State JSON exported successfully.", "success");
-        }
-
-        function resetDashboardState() {
-            if (confirm("Are you sure you want to reset all data back to factory defaults?")) {
-                localStorage.removeItem('nexus_state_v2');
-                appState = JSON.parse(JSON.stringify(defaultState));
-                initAll();
-                showToast("Dashboard reset to default state.", "info");
-            }
-        }
-
-        // Initialize All App Data
-        async function initAll() {
-            document.getElementById('currencySelect').value = appState.currency;
-            document.getElementById('scenarioSelect').value = appState.scenario;
-
-            // Supabase Asynchronous Data Sync
-            if (supabaseClient) {
-                await fetchSupabaseVentures();
-                await fetchSupabaseHITLQueue();
-                await fetchSupabaseGrowthLogs();
-                initSupabaseRealtime();
-            } else {
-                setConnectionStatus(false, "Offline Local Storage Mode");
-            }
-
-            updateKPIs();
-            renderVenturesGrid();
-            renderHitlQueue();
-            renderGrowthLogs();
-            initFinancialChart();
-            initTokenChart();
-            lucide.createIcons();
-        }
-
-        window.addEventListener('DOMContentLoaded', initAll);
-    </script>
-</body>
-</html>

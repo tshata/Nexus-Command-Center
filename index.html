@@ -948,62 +948,22 @@
             showToast('Executive salary and dividend preferences saved.');
             closeSalaryModal();
         }
-const SUPABASE_URL = 'https://ljzfsqnyxsaigsjpnxuu.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqemZzcW55eHNhaWdzanBueHV1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE4NTI4NTMsImV4cCI6MjEwNzQyODg1M30.yGQB3h_axyIQTmix09njxVNklUOhO1qShO0NGYu6RTs';
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-// Test Fetching Live Ventures from Postgres
-async function testFetchVentures() {
-    const { data, error } = await supabaseClient.from('ventures').select('*');
-    if (error) {
-        console.error('Supabase Connection Error:', error);
-    } else {
-        console.log('Successfully fetched ventures from Postgres:', data);
-    }
+async function initAll() {
+    document.getElementById('currencySelect').value = appState.currency;
+    document.getElementById('scenarioSelect').value = appState.scenario;
+    
+    // Fetch live data from Supabase if credentials are provided
+    await fetchSupabaseVentures();
+    initSupabaseRealtime();
+
+    updateKPIs();
+    renderVenturesGrid();
+    renderHitlQueue();
+    renderGrowthLogs();
+    initFinancialChart();
+    initTokenChart();
+    lucide.createIcons();
 }
-testFetchVentures();
-// Real-time listener for the HITL Approval Queue
-supabase
-  .channel('schema-db-changes')
-  .on('postgres_changes', { event: '*', schema: 'public', table: 'hitl_queue' }, (payload) => {
-    console.log('HITL Update received:', payload);
-    renderHITLQueue(); // Re-render queue UI live
-  })
-  .subscribe();
-        // Export State JSON
-        function exportStateJson() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState, null, 2));
-            const downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", "nexus_holdings_state.json");
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
-            showToast('Dashboard state exported as JSON.');
-        }
-
-        // Reset State
-        function resetDashboardState() {
-            localStorage.removeItem('nexus_state_v2');
-            appState = JSON.parse(JSON.stringify(defaultState));
-            saveState();
-            window.location.reload();
-        }
-
-        // Window Init
-        window.onload = function() {
-            document.getElementById('currencySelect').value = appState.currency;
-            document.getElementById('scenarioSelect').value = appState.scenario;
-
-            lucide.createIcons();
-            updateKPIs();
-            renderVenturesGrid();
-            renderHitlQueue();
-            renderLogs();
-            initFinancialChart();
-            initTokenChart();
-
-            showToast('Nexus Command Center loaded successfully.');
-        };
         // ==========================================
 // SUPABASE CLIENT INITIALIZATION
 // ==========================================
@@ -1048,6 +1008,22 @@ async function syncHitlToSupabase(id, decision) {
     } catch (err) {
         console.error('Failed to sync HITL update to Supabase:', err.message);
     }
+}
+
+        function initSupabaseRealtime() {
+    supabaseClient
+        .channel('nexus-live-sync')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'hitl_queue' }, payload => {
+            console.log('Realtime HITL update received:', payload);
+            showToast('New executive review item synced from multi-agent network.', 'info');
+            // Refresh queue
+            renderHitlQueue();
+        })
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'ventures' }, payload => {
+            console.log('Realtime Venture update received:', payload);
+            fetchSupabaseVentures();
+        })
+        .subscribe();
 }
     </script>
 </body>

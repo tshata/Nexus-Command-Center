@@ -1025,6 +1025,15 @@ async function syncHitlToSupabase(id, decision) {
         })
         .subscribe();
 }
-    </script>
+// Test Fetching Live Ventures from Postgres
+async function testFetchVentures() {
+    const { data, error } = await supabaseClient.from('ventures').select('*');
+    if (error) {
+        console.error('Supabase Connection Error:', error);
+    } else {
+        console.log('Successfully fetched ventures from Postgres:', data);
+    }
+}
+testFetchVentures();    </script>
 </body>
 </html>
